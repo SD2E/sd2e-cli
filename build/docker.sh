@@ -19,13 +19,13 @@ if [ $? -ne 0 ] ; then die "Docker not found or unreachable. Exiting." ; fi
 if [ "$COMMAND" == 'build' ];
 then
 
-docker build --rm=true -t cyverse/${IMAGENAME}:${SDKVERSION} .
+docker build --rm=true -t ${TENANT_DOCKER_ORG}/${IMAGENAME}:${SDKVERSION} -f ${TENANT_DOCKERFILE} .
 if [ $? -ne 0 ] ; then die "Error on build. Exiting." ; fi
 
-IMAGEID=`docker images -q  cyverse/${IMAGENAME}:${SDKVERSION}`
-if [ $? -ne 0 ] ; then die "Can't find image cyverse/${IMAGENAME}:${SDKVERSION}. Exiting." ; fi
+IMAGEID=`docker images -q  ${TENANT_DOCKER_ORG}/${IMAGENAME}:${SDKVERSION}`
+if [ $? -ne 0 ] ; then die "Can't find image ${TENANT_DOCKER_ORG}/${IMAGENAME}:${SDKVERSION}. Exiting." ; fi
 
-docker tag ${IMAGEID} cyverse/${IMAGENAME}:latest
+docker tag ${IMAGEID} ${TENANT_DOCKER_ORG}/${IMAGENAME}:latest
 if [ $? -ne 0 ] ; then die "Error tagging with 'latest'. Exiting." ; fi
 
 fi
@@ -34,7 +34,7 @@ fi
 if [ "$COMMAND" == 'release' ];
 then
 
-docker push cyverse/${IMAGENAME}:${SDKVERSION} && docker push cyverse/${IMAGENAME}:latest
+docker push ${TENANT_DOCKER_ORG}/${IMAGENAME}:${SDKVERSION} && docker push ${TENANT_DOCKER_ORG}/${IMAGENAME}:latest
 
 if [ $? -ne 0 ] ; then die "Error pushing to Docker Hub. Exiting." ; fi
 fi
@@ -43,7 +43,7 @@ fi
 if [ "$COMMAND" == 'clean' ];
 then
 
-docker rmi -f cyverse/${IMAGENAME}:${SDKVERSION} && docker rmi -f cyverse/${IMAGENAME}:latest
+docker rmi -f ${TENANT_DOCKER_ORG}/${IMAGENAME}:${SDKVERSION} && docker rmi -f ${TENANT_DOCKER_ORG}/${IMAGENAME}:latest
 
 if [ $? -ne 0 ] ; then die "Error deleting local images. Exiting." ; fi
 fi

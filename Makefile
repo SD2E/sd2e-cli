@@ -1,18 +1,21 @@
 # Matthew Vaughn
-# May 6, 2016
+# Aug 27, 2017
 
 sdk_version := $(shell cat VERSION)
 api_version := v2
-api_release := 2.1.8
+api_release := 2.2.5
 
-TENANT_NAME := Cyverse
-TENANT_KEY := iplantc.org
 PREFIX := $(HOME)
-SDK_GIT_REPO := https://github.com/cyverse/cyverse-sdk
-CLI_GIT_REPO := https://bitbucket.org/agaveapi/cli
-CLI_GIT_BRANCH := develop
 
-OBJ = cyverse-cli
+TENANT_NAME := $(TENANT_NAME)
+TENANT_KEY := $(TENANT_KEY)
+TENANT_INFO := $(TENANT_INFO_SCRIPT)
+DOCKERF := $(TENANT_DOCKERFILE)
+TENANT_DOCKER_TAG := $(TENANT_DOCKER_TAG)
+SDK_GIT_REPO := $(TENANT_SDK_REPO)
+CLI_GIT_REPO := $(AGAVE_CLI_REPO)
+CLI_GIT_BRANCH := $(AGAVE_CLI_BRANCH)
+OBJ := $(MAKE_OBJ)
 SOURCES = customize
 
 # Local installation
@@ -22,11 +25,11 @@ all: $(SOURCES)
 
 .SILENT: cli
 cli: git-test
-	echo "Fetching agaveapi/cli source..."
+	echo "Fetching Agave API cli source..."
 	if [ ! -d "$(OBJ)" ]; then \
 		git clone -q -b "$(CLI_GIT_BRANCH)" "$(CLI_GIT_REPO)" ;\
 		rm -rf cli/.git ;\
-		cp -R cli $(OBJ); \
+		mv cli $(OBJ); \
 	fi
 
 .SILENT: pip
@@ -44,15 +47,13 @@ customize: pip cli
 		-e 's|$${api_version}|$(api_version)|g' \
 		-e 's|$${api_release}|$(api_release)|g' \
 		-e 's|$${sdk_version}|$(sdk_version)|g' \
-		$(OBJ)/bin/cyverse-sdk-info > $(OBJ)/bin/cyverse-sdk-info.edited
-	mv $(OBJ)/bin/cyverse-sdk-info.edited $(OBJ)/bin/cyverse-sdk-info
+		$(OBJ)/bin/$(TENANT_INFO) > $(OBJ)/bin/$(TENANT_INFO).edited
+	mv $(OBJ)/bin/$(TENANT_INFO).edited $(OBJ)/bin/$(TENANT_INFO)
 	find $(OBJ)/bin -type f ! -name '*.sh' -exec chmod a+rx {} \;
 
 
 .SILENT: test
 test:
-	#echo "You should see a report from the cyverse-sdk-info command now...\n"
-	#$(OBJ)/bin/cyverse-sdk-info
 	echo "Not implemented"
 
 .PHONY: clean
@@ -90,13 +91,13 @@ git-test:
 
 # Docker image
 docker: customize
-	build/docker.sh $(OBJ) $(sdk_version) build
+	build/docker.sh $(TENANT_DOCKER_TAG) $(sdk_version) build
 
 docker-release: docker
-	build/docker.sh $(OBJ) $(sdk_version) release
+	build/docker.sh $(TENANT_DOCKER_TAG) $(sdk_version) release
 
 docker-clean:
-	build/docker.sh $(OBJ) $(sdk_version) clean
+	build/docker.sh $(TENANT_DOCKER_TAG) $(sdk_version) clean
 
 # Github release
 .SILENT: dist

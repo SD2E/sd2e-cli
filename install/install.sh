@@ -47,8 +47,8 @@ exists() {
 # Output the instructions to report bug about this script
 report_bug() {
   echo ""
-  echo "Please file a Bug Report at https://github.com/cyverse/cyverse-sdk/issues"
-  echo "More CyVerse support resources can be found at http://www.cyverse.org/learning-center/get-help"
+  echo "Please file a Bug Report at https://github.com/sd2e/sd2e-cli/issues"
+  echo "More sd2e support resources can be found at http://www.sd2e.org/learning-center/get-help"
   echo ""
   echo "Please include as many details about the problem as possible i.e., how to reproduce"
   echo "the problem (if possible), type of the Operating System and its version, etc.,"
@@ -69,7 +69,7 @@ unable_to_retrieve_package() {
 }
 
 http_404_error() {
-  echo "Cyverse installer package does not exist or was not accessible."
+  echo "Installer package does not exist or was not accessible."
   if test "x$stderr_results" != "x"; then
     echo "\nDEBUG OUTPUT FOLLOWS:\n$stderr_results"
   fi
@@ -88,7 +88,7 @@ capture_tmp_stderr() {
 # do_wget URL FILENAME
 do_wget() {
   echo "trying wget..."
-  wget --user-agent="User-Agent: cyverse-sdk-install/1.0.0" -O "$2" "$1" 2>$tmp_dir/stderr
+  wget --user-agent="User-Agent: agave-install/1.0.0" -O "$2" "$1" 2>$tmp_dir/stderr
   rc=$?
   # check for 404
   grep "ERROR 404" $tmp_dir/stderr 2>&1 >/dev/null
@@ -109,7 +109,7 @@ do_wget() {
 # do_curl URL FILENAME
 do_curl() {
   echo "trying curl..."
-  curl -A "User-Agent: cyverse-sdk-install/1.0.0" --retry 5 -sL -D $tmp_dir/stderr "$1" > "$2"
+  curl -A "User-Agent: agave-install/1.0.0" --retry 5 -sL -D $tmp_dir/stderr "$1" > "$2"
   rc=$?
   # check for 404
   grep "404 Not Found" $tmp_dir/stderr 2>&1 >/dev/null
@@ -130,7 +130,7 @@ do_curl() {
 # do_fetch URL FILENAME
 do_fetch() {
   echo "trying fetch..."
-  fetch --user-agent="User-Agent: cyverse-sdk-install/1.0.0" -o "$2" "$1" 2>$tmp_dir/stderr
+  fetch --user-agent="User-Agent: agave-install/1.0.0" -o "$2" "$1" 2>$tmp_dir/stderr
   # check for bad return status
   test $? -ne 0 && return 1
   return 0
@@ -160,7 +160,7 @@ do_perl() {
 # do_python URL FILENAME
 do_python() {
   echo "trying python..."
-  python -c "import sys,urllib2; sys.stdout.write(urllib2.urlopen(urllib2.Request(sys.argv[1], headers={ 'User-Agent': 'cyverse-sdk-install/1.0.0' })).read())" "$1" > "$2" 2>$tmp_dir/stderr
+  python -c "import sys,urllib2; sys.stdout.write(urllib2.urlopen(urllib2.Request(sys.argv[1], headers={ 'User-Agent': 'agave-install/1.0.0' })).read())" "$1" > "$2" 2>$tmp_dir/stderr
   rc=$?
   # check for 404
   grep "HTTP Error 404" $tmp_dir/stderr 2>&1 >/dev/null
@@ -233,7 +233,7 @@ install_file() {
   case "$1" in
   	"tar")
 		tar -C $PREFIX -x -f $2
-		find $PREFIX/cyverse-cli/bin -not -name "*.sh" -exec chmod 711 {} \;
+		find $PREFIX/sd2e-cli/bin -not -name "*.sh" -exec chmod 711 {} \;
 		;;
 	*)
       echo "Unknown filetype: $1"
@@ -260,11 +260,11 @@ tmp_dir="$tmp/install.sh.$$"
 ### INSTALLER
 
 channel="master"
-archive="cyverse-cli.tgz"
+archive="sd2e-cli.tgz"
 cd $tmp_dir
 
-do_download https://github.com/cyverse/cyverse-sdk/raw/${channel}/${archive} ${archive}
-# do_download https://cyverse.github.io/cyverse-sdk/cyverse-cli.tgz cyverse-cli.tgz.md5
+do_download https://github.com/SD2E/sd2e-cli/raw/${channel}/${archive} ${archive}
+# do_download https://sd2e.github.io/sd2e-cli/sd2e-cli.tgz sd2e-cli.tgz.md5
 
 # INSTALL
 if [ -f ${archive} ];
@@ -277,16 +277,16 @@ fi
 
 # EXTEND BASHRC
 echo "Setting up \$PATH..."
-echo $PATH | grep --quiet "$PREFIX/cyverse-cli/bin"
+echo $PATH | grep --quiet "$PREFIX/sd2e-cli/bin"
 if [ $? = 1 ]
 then
-  echo "Extended PATH with $PREFIX/cyverse-cli/bin"
-  echo "export PATH=\$PATH:\$PREFIX/cyverse-cli/bin" >> $HOME/.bashrc
+  echo "Extended PATH with $PREFIX/sd2e-cli/bin"
+  echo "export PATH=\$PATH:\$PREFIX/sd2e-cli/bin" >> $HOME/.bashrc
 fi
 
 # INSTALL PYTHON DEPS
 echo "Installing Python dependencies..."
-do_download https://github.com/cyverse/cyverse-sdk/raw/${channel}/requirements.txt requirements.txt
+do_download https://github.com/sd2e/sd2e-cli/raw/${channel}/requirements.txt requirements.txt
 
 if exists pip
 then
@@ -309,10 +309,10 @@ fi
 
 # TEST
 echo "Testing..."
-if [ -f $PREFIX/cyverse-cli/bin/cyverse-sdk-info ];
+if [ -f $PREFIX/sd2e-cli/bin/sd2e-info ];
 then
-  INFO=$($PREFIX/cyverse-cli/bin/cyverse-sdk-info)
-  echo "$INFO" | grep -i --quiet "cyverse"
+  INFO=$($PREFIX/sd2e-cli/bin/sd2e-info)
+  echo "$INFO" | grep -i --quiet "sd2e"
   if [ $? = 1 ]
   then
     echo "Attempt to validate installation failed!"

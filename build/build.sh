@@ -1,6 +1,8 @@
 #!/bin/bash
 
 _VERSION=$(echo -n $(cat VERSION))
+source configuration.rc
+
 make clean
 make dist
 make clean
