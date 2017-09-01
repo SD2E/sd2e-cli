@@ -1,33 +1,28 @@
-<a href="https://www.cyverse.org"><img src="docs/cyverse_logo.png"></a>
-<a href="https://www.agaveapi.co"><img src="docs/Agave-teal.png" height="72"></a>
 
 Overview
 --------
 
-[CyVerse](https://www.cyverse.org) provides full scriptable access to its underlying infrastructure via the [Agave API](https://www.agaveapi.co), a comprehensive set of RESTful web services that make it easy for developers and users to:
-* Develop and run applications on HPC, Cloud, Condor, and container-based computing systems
-* Use MyProxy-based authentication for federated identity
-* Bring their own computing and storage resources into CyVerse
-* Share data and applications, even with people who aren't CyVerse users
-* Connect computing and data tasks via web-based events
-* Manage data on any cloud storage platform one has access to
-* Build sophisticated web-based applications that take advantage of all these underlying capabilities
-
-We're providing this software development kit to help you with
-
-1. Creating and running in creating your own computing applications to be deployed at CyVerse
-2. Using CyVerse applications deployed by other people to analyse your (or other people's) data at a large scale
-3. Sharing data at CyVerse or on other systems with collaborators
-4. Bringing your own HPC computing and data resources into CyVerse for yourself or other people to use
+Fully scriptable access to the [SD2E](https://www.sd2e.org) platform is provided via RESTful web service APIS such as Agave](https://www.agaveapi.co), [Abaco](https://useabaco.cloud), [OpenStack](https://openstack.org/), and more. using these services, it is possible to:
+* Develop and run applications on HPC, Cloud, and container-based computing systems
+* Integrate and orchestrate computing and data tasks via web-based events
+* Manage data on SD2E and other cloud storage platforms
+* Bring in third-party computing and storage resources to SD2E
+* Share data and applications, even with people who aren't SD2E program participants
+* Build sophisticated new applications that leverage any or all of SD2E's foundational capabilities
 
 ### Tutorials
 
-[Getting Started with CyVerse SDK](docs/getting-started.md) | 
+* [Get started with SD2E CLI](docs/getting-started.md)
+* [Use your first SD2E Agave application](docs/use-apps.md)
+* [Use your first SD2E Reactor function](docs/use-apps.md)
+* [Upload and share data at SD2E](docs/manage-data.md)
+* [Discovering data sets](docs/search-data.md)
+* [Create an Agave batch application for SD2E](docs/app-dev.md)
+* [Create a Reactor Function-as-a-Service at SD2E](docs/fn-dev.md) 
 
-[Develop an Application for CyVerse](docs/app-dev.md) | 
-
-### Reporting errors and getting help
-* Join the developer community on [Agave's Slack communication channel](https://slackin.agaveapi.co/)
+### Report errors and get help
+* SD2 Program Participants can join the #api channel at [SD2E Slack](https://sd2e.slack.com/) 
+* Anyone can join [TACC.cloud Community Slack](https://slackin.tacc.cloud/) for general API platform help
 * Find more in-depth technical detail at the [Agave Science-as-a-Service API](http://agaveapi.co/) home page
 
 ### Additional Guides
