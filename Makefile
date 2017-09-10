@@ -15,6 +15,7 @@ TENANT_DOCKER_TAG := $(TENANT_DOCKER_TAG)
 SDK_GIT_REPO := $(TENANT_SDK_REPO)
 CLI_GIT_REPO := $(AGAVE_CLI_REPO)
 CLI_GIT_BRANCH := $(AGAVE_CLI_BRANCH)
+CLI_GIT_LOCALNAME := $(AGAVE_CLI_LOCALNAME)
 OBJ := $(MAKE_OBJ)
 SOURCES = customize
 
@@ -25,11 +26,14 @@ all: $(SOURCES)
 
 .SILENT: cli
 cli: git-test
-	echo "Fetching tacc-cic/cli source..."
-	if [ ! -d "$(OBJ)" ]; then \
-		git clone -q -b "$(CLI_GIT_BRANCH)" "$(CLI_GIT_REPO)" ;\
-		rm -rf cli/.git ;\
-		mv cli $(OBJ); \
+	echo "Syncing base CLI source..."
+	echo "$(CLI_GIT_LOCALNAME)"
+	if [ $$? -eq 0 ] ; then echo "Now, run make && make install."; exit 0; fi \
+	if [ -d $(CLI_GIT_LOCALNAME) ]; then \
+		echo "OK" \
+	fi \
+	if [ -d "$(CLI_GIT_LOCALNAME)" ]; then
+		echo "Wow"
 	fi
 
 .SILENT: pip

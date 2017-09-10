@@ -1,17 +1,18 @@
 
 # Tenant details
-export TENANT_NAME=DARPA-SD2E
-export TENANT_KEY=sd2e
-export TENANT_INFO_SCRIPT=sd2e-info
+export TENANT_NAME=TACC.cloud
+export TENANT_KEY=tacc.prod
+export TENANT_INFO_SCRIPT=tacc-info
 # Source control
-export TENANT_SDK_REPO=https://github.com/SD2E/sd2e-cli
+export TENANT_SDK_REPO=https://github.com/TACC/tacc-cloud-cli
 export TENANT_SDK_BRANCH=master
 export AGAVE_CLI_REPO=https://bitbucket.org/agaveapi/cli
 export AGAVE_CLI_BRANCH=develop
+export AGAVE_CLI_LOCALNAME=agave-cli
 # Make support
-export MAKE_OBJ=sd2e-cli
+export MAKE_OBJ=tacc-cloud-cli
 # Docker
-export TENANT_DOCKERFILE=Dockerfile.sd2e
-export TENANT_DOCKER_ORG=sd2e
-export TENANT_DOCKER_TAG=cli
+export TENANT_DOCKERFILE=Dockerfile
+export TENANT_DOCKER_ORG=tacc
+export TENANT_DOCKER_TAG=cloud-cli
 export AGAVE_DOCKER_ORG=agaveapi

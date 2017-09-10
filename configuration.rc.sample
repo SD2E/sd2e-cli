@@ -1,0 +1,17 @@
+
+# Tenant details
+export TENANT_NAME=DARPA-SD2E
+export TENANT_KEY=sd2e
+export TENANT_INFO_SCRIPT=sd2e-info
+# Source control
+export TENANT_SDK_REPO=https://github.com/SD2E/sd2e-cli
+export TENANT_SDK_BRANCH=master
+export AGAVE_CLI_REPO=https://bitbucket.org/agaveapi/cli
+export AGAVE_CLI_BRANCH=develop
+# Make support
+export MAKE_OBJ=sd2e-cli
+# Docker
+export TENANT_DOCKERFILE=Dockerfile.sd2e
+export TENANT_DOCKER_ORG=sd2e
+export TENANT_DOCKER_TAG=cli
+export AGAVE_DOCKER_ORG=agaveapi

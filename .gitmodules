@@ -1,0 +1,3 @@
+[submodule "agave-cli"]
+	path = agave-cli
+	url = https://bitbucket.org/tacc-cic/cli
