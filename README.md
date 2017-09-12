@@ -10,7 +10,7 @@ You can use our handy web installer:
 ```shell
 # Run the installer
 % curl -L https://raw.githubusercontent.com/sd2e/sd2e-cli/master/install/install.sh | sh
-```
+
 # Source your .bashrc
 % source ~/.bashrc
 
