@@ -67,11 +67,11 @@ dist: all
 	echo "Ready for release. "
 
 .SILENT: release
-release:
-	git diff-index --quiet HEAD
-	if [ $$? -ne 0 ]; then echo "You have unstaged changes. Please commit or discard then re-run make clean && make release."; exit 0; fi
-	git tag -a "v$(sdk_version)" -m "$(TENANT_NAME) SDK $(sdk_version). Requires Agave API $(api_version)/$(api_release)."
+release: dist
+	echo "Releasing $(TENANT_NAME) v$(sdk_version) for Science API $(api_release)"
+	git tag -a "v$(sdk_version)" -m "Release: $(TENANT_NAME) CLI version $(sdk_version)."
 	git push origin "v$(sdk_version)"
+
 
 .SILENT: test
 test:

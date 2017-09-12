@@ -2,19 +2,39 @@
 
 CONFIG=/root/.agave/current
 
-AGAVE_TENANT=$(jq -r .tenantid $CONFIG)
-AGAVE_USERNAME=$(jq -r .username $CONFIG)
-if [ -z "$AGAVE_USERNAME" ];
-then
-	AGAVE_USERNAME="UNCONFIGURED"
-fi
-AGAVE_TOKEN_EXPIRES=$(jq -r .expires_in $CONFIG )
-if [ -z "$AGAVE_TOKEN_EXPIRES" ]
-then
-	AGAVE_TOKEN_EXPIRES=0
-fi
+function prompt() {
 
-export AGAVE_TENANT
-export AGAVE_USERNAME
+    echo -n $1
+    exit 0
 
-echo -n "[${AGAVE_USERNAME}@${AGAVE_TENANT}]"
+}
+
+if [ -f $CONFIG ];
+then
+
+    AGAVE_TENANT=$(jq -r .tenantid $CONFIG)
+    AGAVE_USERNAME=$(jq -r .username $CONFIG)
+    AGAVE_KEY=$(jq -r .apikey $CONFIG)
+    
+    if [ -z "$AGAVE_KEY" ];
+    then
+        prompt "[Run clients-create -S]"
+    fi
+
+    AGAVE_TOKEN_EXPIRES=$(jq -r .expires_in $CONFIG )
+    if [ -z "$AGAVE_TOKEN_EXPIRES" ]
+    then
+        prompt "[Run auth-tokens-create -S]"
+    	AGAVE_TOKEN_EXPIRES=0
+    fi
+
+    export AGAVE_TENANT
+    export AGAVE_USERNAME
+
+    prompt "[${AGAVE_USERNAME}@${AGAVE_TENANT}]"
+
+else
+
+   prompt "[Run tenants-init]"
+
+fi
