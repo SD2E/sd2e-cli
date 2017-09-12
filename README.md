@@ -1,35 +1,9 @@
 
 # Overview
 
-This is a kit repository for creating distributable, customized CLI tools for projects with their own tenant of the [TACC Cloud API](https://tacc.cloud/)
+Command line interface for the SD2E platform. This repository is mostly intended for developers of the CLI. It's installable via a curl-based installer or available as a Docker container image. Full documentation is available in the [docs/](docs/) folder. 
 
-## Fork this repository at Github
+## Install
 
-## Clone it locally into <tenant-cli>
+## Use Docker
 
-```shell
-cd <tenant-cli>
-make init
-```
-
-The result will be several configuration files that you must customize to your tenant-specific CLI
-
-### configuration.rc
-
-### Dockerfile
-
-### requirements.txt
-
-### VERSION
-
-### CNAME
-
-### CHANGELOG.md
-
-
-# Build
-
-After customizing the config files
-
-```shell
-make all
