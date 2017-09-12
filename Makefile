@@ -9,9 +9,10 @@ PREFIX := $(HOME)
 
 TENANT_NAME := $(TENANT_NAME)
 TENANT_KEY := $(TENANT_KEY)
-TENANT_INFO := $(TENANT_INFO_SCRIPT)
-DOCKERF := $(TENANT_DOCKERFILE)
+TENANT_SCRIPT_NS := $(TENANT_SCRIPT_NS)
+TENANT_DOCKER_DOCKER_FILE := $(TENANT_DOCKERFILE)
 TENANT_DOCKER_TAG := $(TENANT_DOCKER_TAG)
+
 SDK_GIT_REPO := $(TENANT_SDK_REPO)
 CLI_GIT_REPO := $(AGAVE_CLI_REPO)
 CLI_GIT_BRANCH := $(AGAVE_CLI_BRANCH)
@@ -23,6 +24,17 @@ SOURCES = customize
 SED = ''
 
 all: $(SOURCES)
+
+.SILENT: init
+init:
+	echo "Creating config files. Don't forget to customize them!"
+	cp sample.VERSION VERSION.X ; \
+	cp sample.requirements.txt requirements.txt.X ; \
+	cp sample.Dockerfile Dockerfile ; \
+	cp sample.CHANGELOG.md CHANGELOG.md ; \
+	cp sample.configuration.rc configuration.rc ;\
+	cp sample._config.yml _config.yml ;\
+	cp sample.CNAME CNAME
 
 .SILENT: cli
 cli: git-test

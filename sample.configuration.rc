@@ -12,7 +12,8 @@ export TENANT_PROJECT=TACC-Cloud-Community
 # Source control
 export TENANT_SDK_REPO=https://github.com/TACC/cloud-cli
 export TENANT_SDK_BRANCH=master
-
+export AGAVE_CLI_REPO=https://bitbucket.org/agaveapi/cli
+export AGAVE_CLI_BRANCH=develop
 # Make support
 export MAKE_OBJ=tacc-cloud-cli
 # Docker

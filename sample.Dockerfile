@@ -1,8 +1,8 @@
-######################################################
+#################################################################
 #
-# docker run -it -v $HOME/.agave:/root/.agave sd2e/cli bash
+# docker run -it -v $HOME/.agave:/root/.agave TACC/cloud-cli bash
 #
-######################################################
+#################################################################
 
 FROM ubuntu:xenial
 
@@ -17,17 +17,17 @@ RUN apt-get -y update && \
 RUN curl -L -sk -o /usr/local/bin/jq "https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64" \
     && chmod a+x /usr/local/bin/jq
 
-ADD sd2e-cli /usr/local/agave-cli
-ENV PATH $PATH:/usr/local/agave-cli/bin
+ADD tacc-cloud-cli /usr/local/tacc-cloud-cli
+ENV PATH $PATH:/usr/local/tacc-cloud-cli/bin
 
-# RUN echo export PS1=\""\[\e[32;4m\]agave-cli\[\e[0m\]:$AGAVE_TENANT:$AGAVE_USERNAME@\h:\w$ "\" >> /root/.bashrc
+# RUN echo export PS1=\""\[\e[32;4m\]tacc-cloud\[\e[0m\]:$AGAVE_TENANT:$AGAVE_USERNAME@\h:\w$ "\" >> /root/.bashrc
 
 # Set user's default env. This won't get sourced, but is helpful
 RUN echo HOME=/root >> /root/.bashrc && \
     echo AGAVE_CACHE_DIR=/root/.agave >> /root/.bashrc && \
-    echo PROMPT_COMMAND=/usr/local/agave-cli/bin/prompt_command >> /root/.bashrc && \
+    echo PROMPT_COMMAND=/usr/local/tacc-cloud-cli/bin/prompt_command >> /root/.bashrc && \
     echo export PS1=\"\\h:\\w\$ \" >> /root/.bashrc && \
-    usr/local/agave-cli/bin/tenants-init -t sd2e
+    usr/local/tacc-cloud-cli/bin/tenants-init -t tacc.cloud.prod
 
 # Runtime parameters. Start a shell by default
 VOLUME /root/.agave

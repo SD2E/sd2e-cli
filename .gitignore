@@ -1,5 +1,9 @@
 .DS_Store
-cli/
-cyverse-cli/
 *__pycache__*
 *.pyc
+CNAME
+_config.yml
+configuration.rc
+Dockerfile
+requirements.txt
+VERSION
