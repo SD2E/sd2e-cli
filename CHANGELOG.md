@@ -1,6 +1,17 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## Version 1.0.1 - 09/12/2017
+### Added
+* Nothing
+
+### Changed
+* Finished abstraction from cyverse-sdk. Now based off [tacc-cloud-sdk-kit](https://github.com/TACC/tacc-cloud-sdk-kit)
+
+### Removed
+* Nothing
+
+
 ## Version 1.0.0 - 08/27/2017
 ### Added
 * Nothing

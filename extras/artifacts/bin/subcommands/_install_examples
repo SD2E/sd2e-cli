@@ -1,0 +1,93 @@
+#!/bin/bash
+
+AI_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source "${AI_DIR}/libs/utilities.sh"
+
+_AGAVE_EXEC_SYSTEM=
+_STORE_AGAVE_USERNAME=
+_STORE_AGAVE_TENANT=
+
+function init(){
+    echo ""
+}
+
+function deploy_app(){
+    local _app=$1
+    local _system=$2
+    
+    local _EXAMPLES="${AI_DIR}/../examples/"
+    local _APPDIR="${EXAMPLES}/${_app}"
+
+    local _appowner=$(get_agave_uname)
+    local _tempid1=$(shortid)
+    local _tempid2=$(shortid)
+    local _appname="${_appowner}-$1-${_tempid1}"
+    local _appvers="1.0"
+    local _datesec=$(date +%s)
+    local _appexectype=$(get_agave_execsystem_type $_system)
+
+    # Write app template
+    # It assumes that deploymentPath is a public-readable location
+    # provided by the CyVerse SDK maintainers
+    python "${AI_DIR}/template2json.py" -k APP_NAME=${_appname} \
+            APP_EXECUTIONSYSTEM=${_system} \
+            APP_VERSION=${_appvers} \
+            APP_TYPE=${_appexectype} \
+            -i "${AI_DIR}/../examples/$_app/json/app.jsonx" \
+            -o "app-${_appname}.json"
+
+    local _apps_create=$(apps-addupdate -F "app-${_appname}.json")
+    echo "${_apps_create}"
+
+cat <<EOM> "job-${_tempid1}.json"
+{
+  "name": "${_tempid1}-${_tempid2}",
+  "appId": "${_appname}-${_appvers}",
+  "defaultMaxRunTime": "00:05:00",
+  "archive": false
+}
+EOM
+
+}
+
+function select_system(){
+
+    local _uname=$( get_agave_uname )
+    echo "Hello, $_uname. Please select an execution system."
+    echo "Your choices are:"
+    DEFS=$(systems-search "type=execution" "public=false" "owner=${_uname}" "limit=32")
+    echo "$DEFS"
+    DEF=$(echo -n "$DEFS" | head -n 1)
+    default="${DEF}"
+    read -p "Enter an valid Agave executionSystem [$default]: " AGAVESYS
+    local _system=${AGAVESYS:-$default}
+    local _test=$(systems-search "id=${_system}" "public=false" "owner=${_uname}" "limit=1")
+    if [ -n "${_test}" ]
+    then
+        _AGAVE_EXEC_SYSTEM="${_test}"
+    fi
+
+}
+
+while [ -z "$_AGAVE_EXEC_SYSTEM" ]
+do
+    select_system
+done
+echo "Select application to install on $_AGAVE_EXEC_SYSTEM..."
+echo -e "- 1) hello-agave\n- 2) print-env\n- 3) docker-run\n- 4) word-count"
+
+# TODO: Wrap in while loop
+default="1"
+read -p "Your choice [$default]: " AGAVEAPP
+__selection=${AGAVEAPP:-$default}
+
+case "${__selection}" in
+    1)  echo "Installing hello-agave..."
+        deploy_app "hello-agave" "$_AGAVE_EXEC_SYSTEM"
+        ;;
+    2)  echo "Installing print-env..."
+        deploy_app "print-env" "$_AGAVE_EXEC_SYSTEM"
+        ;;
+    *) echo "Invalid choice"
+        ;;
+esac

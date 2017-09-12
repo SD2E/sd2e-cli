@@ -1,0 +1,64 @@
+#!/bin/bash
+
+function print_info() {
+
+cat << EOF
+
+DARPA SD2E version 1.0.1
+TACC Cloud API tenant: sd2e
+TACC Cloud API versions:
+	Science APIs: 2.2.5
+	Reactors API: dev
+	TACC Accounting API: v1
+
+EOF
+
+}
+
+function check_update {
+
+	UPDATE_AVAILABLE=
+
+	if [ -z "$CLOUD_CLI_NO_CHECK"  ]
+	then
+
+		DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+		INSTALLED=$(cat $DIR/../SDK-VERSION)
+		AVAILABLE=$(curl -skL "https://raw.githubusercontent.com/SD2E/sd2e-cli/master/VERSION")
+		UPDATE_AVAILABLE=$(awk -v n1=$INSTALLED -v n2=$AVAILABLE 'BEGIN {if (n1<n2) printf ("1"); else printf ("0");}')
+		if [ ${UPDATE_AVAILABLE} -eq 1 ];
+		then
+			echo "An update is available ($INSTALLED installed - $AVAILABLE available)"
+			echo "Re-run $0 with --upgrade to install it."
+		fi
+	
+	fi
+}
+
+function do_upgrade_cli {
+
+	DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+		mytmpdir=`mktemp -d 2>/dev/null || mktemp -d -t 'mytmpdir'`
+		curl -skL -o ${mytmpdir}/cyverse-cli.tgz "https://raw.githubusercontent.com/SD2E/sd2e-cli/master/sd2e-cli.tgz"
+		tar -xf ${mytmpdir}/sd2e-cli.tgz -C "$DIR/../../"
+		rm -rf ${mytmpdir}
+		echo "Done."
+
+}
+
+if [ "$1" == "-h" ] || [ "$1" == "--help" ];
+then
+	echo "Information script for the ${TENANT_NAME} API. It checks for updates and can update the CLI in place if one is available."
+fi
+
+if [ "$1" == "--upgrade" ] || [ "$1" == "-u" ];
+then
+	do_upgrade_cli
+fi
+
+if [ -z "$1" ];
+then
+	print_info
+fi

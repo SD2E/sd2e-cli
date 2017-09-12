@@ -38,8 +38,14 @@ cli-base: submodules
 	cd tacc-cli-base ; \
 	git pull origin master
 
+.SILENT: customize
+customize: cli-base
+	echo "Customizing..."
+	build/customize.sh "$(OBJ)"
+	#find $(OBJ)/bin -type f ! -name '*.sh' ! -name '*.py' -exec chmod a+rx {} \;
+
 .SILENT: extras
-extras: cli-base
+extras: customize
 	echo "Syncing tenant-specific extensions..."
 	if [ -d "extras" ]; then \
 		cd extras ; \
@@ -53,11 +59,19 @@ extras: cli-base
 		make all ; \
 	fi
 
-.SILENT: customize
-customize: cli-base extras
-	echo "Customizing..."
-	build/customize.sh "$(OBJ)"
-	#find $(OBJ)/bin -type f ! -name '*.sh' ! -name '*.py' -exec chmod a+rx {} \;
+# Pakcage tgz for public release
+.SILENT: dist
+dist: all
+	tar -czf "$(OBJ).tgz" $(OBJ)
+	rm -rf $(OBJ)
+	echo "Ready for release. "
+
+.SILENT: release
+release:
+	git diff-index --quiet HEAD
+	if [ $$? -ne 0 ]; then echo "You have unstaged changes. Please commit or discard then re-run make clean && make release."; exit 0; fi
+	git tag -a "v$(sdk_version)" -m "$(TENANT_NAME) SDK $(sdk_version). Requires Agave API $(api_version)/$(api_release)."
+	git push origin "v$(sdk_version)"
 
 .SILENT: test
 test:
@@ -110,17 +124,4 @@ docker-release: docker
 docker-clean:
 	build/docker.sh $(TENANT_DOCKER_TAG) $(sdk_version) clean
 
-# Github release
-.SILENT: dist
-dist: all
-	tar -czf "$(OBJ).tgz" $(OBJ)
-	rm -rf $(OBJ)
-	echo "Ready for release. "
-
-.SILENT: release
-release:
-	git diff-index --quiet HEAD
-	if [ $$? -ne 0 ]; then echo "You have unstaged changes. Please commit or discard then re-run make clean && make release."; exit 0; fi
-	git tag -a "v$(sdk_version)" -m "$(TENANT_NAME) SDK $(sdk_version). Requires Agave API $(api_version)/$(api_release)."
-	git push origin "v$(sdk_version)"
 
