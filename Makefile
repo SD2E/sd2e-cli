@@ -115,7 +115,6 @@ docker-clean:
 dist: all
 	tar -czf "$(OBJ).tgz" $(OBJ)
 	rm -rf $(OBJ)
-	rm -rf cli
 	echo "Ready for release. "
 
 .SILENT: release

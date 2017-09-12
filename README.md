@@ -30,3 +30,6 @@ The result will be several configuration files that you must customize to your t
 # Build
 
 After customizing the config files
+
+```shell
+make all
