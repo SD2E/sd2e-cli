@@ -2,6 +2,7 @@
 *__pycache__*
 *.pyc
 tacc-cloud-cli/*
+extras/artifacts/*
 CNAME
 _config.yml
 configuration.rc

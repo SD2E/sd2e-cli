@@ -80,6 +80,10 @@ test:
 .PHONY: clean
 clean:
 	rm -rf $(OBJ)
+	if [ -f "extras/Makefile" ]; then \
+		cd extras ; \
+		make clean ; \
+	fi
 
 .PHONY: pristine
 pristine: clean
