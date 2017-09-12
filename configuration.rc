@@ -9,14 +9,28 @@ export TENANT_NS=tacc
 # Community project (for access to default resources)
 export TENANT_PROJECT=TACC-Cloud-Community
 
-# Source control
-export TENANT_SDK_REPO=https://github.com/TACC/cloud-cli
-export TENANT_SDK_BRANCH=master
-
-# Make support
-export MAKE_OBJ=tacc-cloud-cli
 # Docker
 export TENANT_DOCKERFILE=Dockerfile
 export TENANT_DOCKER_ORG=TACC
 export TENANT_DOCKER_TAG=cloud-cli
 export AGAVE_DOCKER_ORG=agaveapi
+
+# Destination repository
+export TENANT_CLI_REPO=https://github.com/TACC/cloud-cli
+export TENANT_CLI_BRANCH=master
+
+# Submodules
+export CLI_BASE_REPO=https://bitbucket.org/tacc-cic/cli
+export CLI_BASE_BRANCH=master
+export CLI_BASE_DEST=tacc-cli-base
+
+export CLI_DOCS=
+export CLI_DOCS_BRANCH=
+export CLI_DOCS_DEST=docs
+
+export CLI_EXTRAS_REPO=
+export CLI_EXTRAS_BRANCH=
+export CLI_EXTRAS_DEST=extras
+
+# Make support
+export MAKE_OBJ=tacc-cloud-cli

@@ -12,11 +12,8 @@ TENANT_KEY := $(TENANT_KEY)
 TENANT_SCRIPT_NS := $(TENANT_SCRIPT_NS)
 TENANT_DOCKER_DOCKER_FILE := $(TENANT_DOCKERFILE)
 TENANT_DOCKER_TAG := $(TENANT_DOCKER_TAG)
-
 SDK_GIT_REPO := $(TENANT_SDK_REPO)
-CLI_GIT_REPO := $(AGAVE_CLI_REPO)
-CLI_GIT_BRANCH := $(AGAVE_CLI_BRANCH)
-CLI_GIT_LOCALNAME := $(AGAVE_CLI_LOCALNAME)
+
 OBJ := $(MAKE_OBJ)
 SOURCES = customize
 
@@ -28,45 +25,39 @@ all: $(SOURCES)
 .SILENT: init
 init:
 	echo "Creating config files. Don't forget to customize them!"
-	cp sample.VERSION VERSION.X ; \
-	cp sample.requirements.txt requirements.txt.X ; \
-	cp sample.Dockerfile Dockerfile ; \
-	cp sample.CHANGELOG.md CHANGELOG.md ; \
-	cp sample.configuration.rc configuration.rc ;\
-	cp sample._config.yml _config.yml ;\
-	cp sample.CNAME CNAME
+	build/config.sh
 
-.SILENT: cli
-cli: git-test
-	echo "Syncing base CLI source..."
-	echo "$(CLI_GIT_LOCALNAME)"
-	if [ $$? -eq 0 ] ; then echo "Now, run make && make install."; exit 0; fi \
-	if [ -d $(CLI_GIT_LOCALNAME) ]; then \
-		echo "OK" \
-	fi \
-	if [ -d "$(CLI_GIT_LOCALNAME)" ]; then
-		echo "Wow"
+.SILENT: submodules
+submodules: git-test
+	echo "Configuring submodules"
+	build/submodules.sh
+
+.SILENT: cli-base
+cli-base: submodules
+	echo "Syncing core CLI sources..."
+	cd tacc-cli-base ; \
+	git pull origin master
+
+.SILENT: extras
+extras: cli-base
+	echo "Syncing tenant-specific extensions..."
+	if [ -d "extras" ]; then \
+		cd extras ; \
+		if [ -d ".git" ]; then \
+			git pull origin master ; \
+		fi ; \
+	fi
+	echo "Building tenant-specific extensions..."
+	if [ -f "extras/Makefile" ]; then \
+		cd extras ; \
+		make all ; \
 	fi
 
-.SILENT: pip
-pip: git-test
-	pip install --user -r requirements.txt
-
 .SILENT: customize
-customize: pip cli
+customize: cli-base extras
 	echo "Customizing..."
-	cp -fr src/templates $(OBJ)/
-	cp -fr src/scripts/* $(OBJ)/bin/
-	cp VERSION $(OBJ)/SDK-VERSION
-	sed -e 's|$${TENANT_NAME}|$(TENANT_NAME)|g' \
-		-e 's|$${TENANT_KEY}|$(TENANT_KEY)|g' \
-		-e 's|$${api_version}|$(api_version)|g' \
-		-e 's|$${api_release}|$(api_release)|g' \
-		-e 's|$${sdk_version}|$(sdk_version)|g' \
-		$(OBJ)/bin/$(TENANT_INFO) > $(OBJ)/bin/$(TENANT_INFO).edited
-	mv $(OBJ)/bin/$(TENANT_INFO).edited $(OBJ)/bin/$(TENANT_INFO)
-	find $(OBJ)/bin -type f ! -name '*.sh' -exec chmod a+rx {} \;
-
+	build/customize.sh "$(OBJ)"
+	#find $(OBJ)/bin -type f ! -name '*.sh' ! -name '*.py' -exec chmod a+rx {} \;
 
 .SILENT: test
 test:
@@ -74,7 +65,11 @@ test:
 
 .PHONY: clean
 clean:
-	rm -rf $(OBJ) cli
+	rm -rf $(OBJ)
+
+.PHONY: pristine
+pristine: clean
+	build/config.sh delete
 
 .SILENT: install
 install: $(OBJ)
@@ -85,7 +80,7 @@ install: $(OBJ)
 
 .SILENT: uninstall
 uninstall:
-	if [ -d $(PREFIX)/$(OBJ) ];then rm -rf $(PREFIX)/$(OBJ); echo "Uninstalled $(PREFIX)/$(OBJ)."; exit 0; fi
+	if [ -d $(PREFIX)/$(OBJ) ]; then rm -rf $(PREFIX)/$(OBJ); echo "Uninstalled $(PREFIX)/$(OBJ)."; exit 0; fi
 
 .SILENT: update
 update: clean git-test
