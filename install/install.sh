@@ -285,27 +285,27 @@ then
 fi
 
 # INSTALL PYTHON DEPS
-echo "Installing Python dependencies..."
-do_download "${_REPO_URL}/raw/${channel}/requirements.txt" requirements.txt
+# echo "Installing Python dependencies..."
+# do_download "${_REPO_URL}/raw/${channel}/requirements.txt" requirements.txt
 
-if exists pip
-then
-    if [[ -z "$VIRTUAL_ENV" ]];
-  then
-    pip install -q --trusted-host pypi.python.org -r requirements.txt
-  else
-    pip install -q --trusted-host pypi.python.org --user -r requirements.txt
-  fi
-  if [ $? = 1 ];
-  then
-    echo "Error installing Python dependencies!"
-    report_bug
-    exit 1
-  fi
-else
-  echo "The pip package is not installed. Please make sure the following Python libraries are installed."
-  cat requirements.txt
-fi
+# if exists pip
+# then
+#     if [[ -z "$VIRTUAL_ENV" ]];
+#   then
+#     pip install -q --trusted-host pypi.python.org -r requirements.txt
+#   else
+#     pip install -q --trusted-host pypi.python.org --user -r requirements.txt
+#   fi
+#   if [ $? = 1 ];
+#   then
+#     echo "Error installing Python dependencies!"
+#     report_bug
+#     exit 1
+#   fi
+# else
+#   echo "The pip package is not installed. Please make sure the following Python libraries are installed."
+#   cat requirements.txt
+# fi
 
 # TEST
 echo "Testing..."
