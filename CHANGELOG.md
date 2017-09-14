@@ -1,6 +1,16 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## Version 1.0.2 - 09/14/2017
+### Added
+* Nothing
+
+### Changed
+* Fixed installer.sh to behave properly on some OS X systems
+
+### Removed
+* Nothing
+
 ## Version 1.0.1 - 09/12/2017
 ### Added
 * Nothing
