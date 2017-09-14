@@ -282,6 +282,10 @@ if [ $? = 1 ]
 then
   echo "Extended PATH with $HOME/${_CLI_DEST}/bin"
   echo "export PATH=\$PATH:$HOME/${_CLI_DEST}/bin" >> $HOME/.bashrc
+  if [ -f $HOME/.bash_profile ]
+  then
+    echo "export PATH=\$PATH:$HOME/${_CLI_DEST}/bin" >> $HOME/.bash_profile
+  fi
 fi
 
 # INSTALL PYTHON DEPS
