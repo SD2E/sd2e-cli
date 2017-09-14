@@ -30,7 +30,7 @@
 
 # Credits: Adapted heavily from Chef's Omnitruck curl|bash installer
 
-PREFIX=${PREFIX-$HOME}
+HOME=$HOME
 _USER_AGENT="sd2e-cloud-cli-install/1.0.0"
 _REPO_URL="https://github.com/SD2E/sd2e-cli"
 _CLI_DEST="sd2e-cloud-cli"
@@ -233,8 +233,8 @@ install_file() {
   echo "Installing..."
   case "$1" in
   	"tar")
-		tar -C $PREFIX -x -f $2
-		find $PREFIX/${_CLI_DEST}/bin -not -name "*.sh" -exec chmod 711 {} \;
+		tar -C $HOME -x -f $2
+		find $HOME/${_CLI_DEST}/bin -not -name "*.sh" -exec chmod 711 {} \;
 		;;
 	*)
       echo "Unknown filetype: $1"
@@ -277,11 +277,11 @@ fi
 
 # EXTEND BASHRC
 echo "Setting up \$PATH..."
-echo $PATH | grep --quiet "$PREFIX/${_CLI_DEST}/bin"
+echo $PATH | grep --quiet "$HOME/${_CLI_DEST}/bin"
 if [ $? = 1 ]
 then
-  echo "Extended PATH with $PREFIX/${_CLI_DEST}/bin"
-  echo "export PATH=\$PATH:$PREFIX/${_CLI_DEST}/bin" >> $HOME/.bashrc
+  echo "Extended PATH with $HOME/${_CLI_DEST}/bin"
+  echo "export PATH=\$PATH:$HOME/${_CLI_DEST}/bin" >> $HOME/.bashrc
 fi
 
 # INSTALL PYTHON DEPS
@@ -309,9 +309,9 @@ fi
 
 # TEST
 echo "Testing..."
-if [ -f "$PREFIX/${_CLI_DEST}/bin/sd2e" ];
+if [ -f "$HOME/${_CLI_DEST}/bin/sd2e" ];
 then
-  INFO=$($PREFIX/${_CLI_DEST}/bin/sd2e info)
+  INFO=$($HOME/${_CLI_DEST}/bin/sd2e info)
   echo "$INFO" | grep -i --quiet "sd2e"
   if [ $? = 1 ]
   then
