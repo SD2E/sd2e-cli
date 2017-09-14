@@ -281,7 +281,7 @@ echo $PATH | grep --quiet "$PREFIX/${_CLI_DEST}/bin"
 if [ $? = 1 ]
 then
   echo "Extended PATH with $PREFIX/${_CLI_DEST}/bin"
-  echo "export PATH=\$PATH:\$PREFIX/${_CLI_DEST}/bin" >> $HOME/.bashrc
+  echo "export PATH=\$PATH:$PREFIX/${_CLI_DEST}/bin" >> $HOME/.bashrc
 fi
 
 # INSTALL PYTHON DEPS
