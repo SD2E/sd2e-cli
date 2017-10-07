@@ -9,3 +9,4 @@ configuration.rc
 Dockerfile
 requirements.txt
 VERSION
+.DESIGN

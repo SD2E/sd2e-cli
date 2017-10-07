@@ -55,4 +55,9 @@ Some people find it handy to define this as an alias
 
 `alias sd2e-cli='docker run -it -v $HOME/.agave:/root/.agave sd2e/cloud-cli bash'`
 
-```
+## Developing the CLI
+
+1. Fork this repository and clone it locally
+2. Develop in your own branches, named after the feature or fix you are working on
+3. Test extensively. 
+4. Submit a well-documented PR against the `develop` branch of upstream repository
