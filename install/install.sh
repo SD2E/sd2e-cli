@@ -33,7 +33,7 @@
 HOME=$HOME
 _USER_AGENT="sd2e-cloud-cli-install/1.0.0"
 _REPO_URL="https://github.com/SD2E/sd2e-cli"
-_CLI_DEST=${1-sd2e-cloud-cli}
+_CLI_DEST="sd2e-cloud-cli"
 # helpers.sh
 #
 # Check whether a command exists - returns 0 if it does, 1 if it does not

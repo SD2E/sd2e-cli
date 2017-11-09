@@ -1,6 +1,17 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## Version 1.0.3 - 11/09/2017
+### Added
+* Nothing
+
+### Changed
+* Installer fixes
+* Updated to latest TACC Cloud CLI with new auth-switch function
+
+### Removed
+* Nothing
+
 ## Version 1.0.2 - 09/14/2017
 ### Added
 * Nothing
