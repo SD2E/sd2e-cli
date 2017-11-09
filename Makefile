@@ -1,6 +1,8 @@
 # Matthew Vaughn
 # Aug 27, 2017
 
+include configuration.rc
+
 sdk_version := $(shell cat VERSION)
 api_version := v2
 api_release := 2.2.5
@@ -68,10 +70,11 @@ dist: all
 
 .SILENT: release
 release: dist
+	set -x
 	echo "Releasing $(TENANT_NAME) v$(sdk_version) for Science API $(api_release)"
-	git tag -a "v$(sdk_version)" -m "Release: $(TENANT_NAME) CLI version $(sdk_version)."
+	git tag -a "v$(sdk_version)" -m "Release $(MAKE_OBJ) version v$(sdk_version)"
 	git push origin "v$(sdk_version)"
-
+	set +x
 
 .SILENT: test
 test:
