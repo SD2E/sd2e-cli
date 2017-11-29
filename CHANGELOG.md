@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## Version 1.0.4 - 11/29/2017
+### Changed
+* updated the internal use of the "find" command to improve compatibility between OS X and other Linux distributions
+
 ## Version 1.0.3 - 11/09/2017
 ### Added
 * Nothing
