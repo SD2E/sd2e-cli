@@ -11,6 +11,22 @@ DIR="$DIR/subcommands"
 
 _FILTER='! -name ".*" ! -name "*.py" ! -name "*.sh" ! -name "*.bash'
 
+function custom_find() {
+    if [ -z $2 ]; then
+        if [ $(uname) == "Darwin" ]; then
+            find $1 -maxdepth 1 -type f -perm +111 ! -name "_*" ! -name ".*" ! -name "*.py" ! -name "*.sh" ! -name "*.bash" -exec basename {} \;
+        else
+            find $1 -maxdepth 1 -type f -perm /111 ! -name "_*" ! -name ".*" ! -name "*.py" ! -name "*.sh" ! -name "*.bash" -exec basename {} \;
+        fi
+    else
+        if [ $(uname) == "Darwin" ]; then
+            find $1 -maxdepth 1 -type f -name $2 -perm +111 ! -name "_*" ! -name ".*" ! -name "*.py" ! -name "*.sh" ! -name "*.bash" -exec basename {} \;
+        else
+            find $1 -maxdepth 1 -type f -name $2 -perm /111 ! -name "_*" ! -name ".*" ! -name "*.py" ! -name "*.sh" ! -name "*.bash" -exec basename {} \;
+        fi
+    fi
+}
+
 function is_subcommand() {
     
     local _QUERY=$1
@@ -18,7 +34,7 @@ function is_subcommand() {
 
     if [ ! -z $_QUERY ];
     then
-        _CMD=$(find $DIR -maxdepth 1 -type f -name $_QUERY -perm +111 ! -name "_*" ! -name ".*" ! -name "*.py" ! -name "*.sh" ! -name "*.bash" -exec basename {} \;)
+        _CMD=$(custom_find $DIR $_QUERY)
     fi
 
     echo -n $_CMD
@@ -30,7 +46,7 @@ function list_subcommands() {
     
     local _CMDS=
     echo "These subcommands are available. Enter sd2e <subcommand> -h for function and usage details."
-    _CMDS=$(find $DIR -maxdepth 1 -type f -perm +111 ! -name "_*" ! -name ".*" ! -name "*.py" ! -name "*.sh" ! -name "*.bash" -exec basename {} \;)
+    _CMDS=$(custom_find $DIR)
 
     if [ ! -z "$_CMDS" ]; 
     then
