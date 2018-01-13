@@ -1,6 +1,7 @@
 .DS_Store
 *__pycache__*
 *.pyc
+abaco-cli/*
 tacc-cloud-cli/*
 extras/artifacts/*
 CNAME
