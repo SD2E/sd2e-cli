@@ -1,6 +1,6 @@
 #!/bin/bash
 
-AGAVE_TENANT_NAME="iplantc.org"
+export TENANT_NAME="sd2e.org"
 EXTRAS=
 
 if [[ -z "$DIR" ]]; then
