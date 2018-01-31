@@ -1,6 +1,15 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## Version 1.0.6 - 1/31/2018
+### Changed
+* updated the info subcommand to fix updating.
+* added an "upgrade" subcommand to make the upgrade feature a little easier to find. 
+
+## Version 1.0.5 - 1/30/2018
+### Changed
+* added Abaco CLI as a submodule 
+
 ## Version 1.0.4 - 11/29/2017
 ### Changed
 * updated the internal use of the "find" command to improve compatibility between OS X and other Linux distributions

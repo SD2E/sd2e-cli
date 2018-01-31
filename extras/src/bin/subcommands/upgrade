@@ -11,36 +11,39 @@ else
     SDK_VERSION=
 fi
 
-function print_info() {
+usage() {
+  echo -n "$(basename $0) [OPTION]
 
-cat << EOF
+Check for a newer release of the SD2E CLI tools.
 
-DARPA SD2E version: $SDK_VERSION
-TACC Cloud API tenant: $TENANT_NAME
-TACC Cloud API versions:
-	Science APIs: 2.2.5
-	Reactors API: dev
-	TACC Accounting API: v1
-
-EOF
-
+ Options:
+  --force              Force a new install of the latest release
+  -h, --help           Display this help and exit
+"
 }
 
 function check_update {
 
-	UPDATE_AVAILABLE=
+	UPDATE_AVAILABLE=0
 
 	if [ -z "$CLOUD_CLI_NO_CHECK"  ]
 	then
 
 		AVAILABLE=$(curl -skL "https://raw.githubusercontent.com/SD2E/sd2e-cli/master/VERSION")
-		UPDATE_AVAILABLE=$(awk -v n1=$SDK_VERSION -v n2=$AVAILABLE 'BEGIN {if (n1<n2) printf ("1"); else printf ("0");}')
+		if [ -z $SDK_VERSION ]; then
+			echo "Current version is unknown."
+			echo "To force the latest installation, please use the --force flag"
+        else
+			UPDATE_AVAILABLE=$(awk -v n1=$SDK_VERSION -v n2=$AVAILABLE 'BEGIN {if (n1<n2) printf ("1"); else printf ("0");}')
+		fi
+
 		if [ ${UPDATE_AVAILABLE} -eq 1 ];
 		then
-			echo "An update is available ($SDK_VERSION installed - $AVAILABLE available)"
-			echo "Re-run $0 with --upgrade to install it."
+			echo "Updating from version $SDK_VERSION (installed) to version $AVAILABLE (available)"
+			do_upgrade_cli
+		else
+			echo "Already up to date (version $SDK_VERSION)."
 		fi
-	
 	fi
 }
 
@@ -54,18 +57,11 @@ function do_upgrade_cli {
 
 }
 
-if [ "$1" == "-h" ] || [ "$1" == "--help" ];
-then
-	echo "Information script for the ${TENANT_NAME} API. It checks for updates and can update the CLI in place if one is available."
-fi
-
-if [ "$1" == "--upgrade" ] || [ "$1" == "-u" ];
-then
+if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
+	usage
+elif [ "$1" == "--force" ]; then
 	do_upgrade_cli
+else
+    check_update
 fi
 
-if [ -z "$1" ];
-then
-	print_info
-	check_update
-fi
