@@ -10,7 +10,9 @@ then
 fi
 
 cp -fR tacc-cli-base/* ${TARGET}/
+cp -fR abaco-cli/* ${TARGET}/bin
 cp VERSION ${TARGET}/SDK-VERSION
+
 
 # Extras
 if [ -f "extras/Makefile" ];

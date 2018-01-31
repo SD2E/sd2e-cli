@@ -23,3 +23,8 @@ if [ ! -z "CLI_BASE_REPO" ]
 then
     submod $CLI_BASE_REPO $CLI_BASE_DEST $CLI_BASE_BRANCH
 fi
+
+if [ ! -z "ABACO_BASE_REPO" ]
+then
+    submod $ABACO_BASE_REPO $ABACO_BASE_DEST $ABACO_BASE_BRANCH
+fi

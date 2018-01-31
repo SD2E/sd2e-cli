@@ -38,7 +38,11 @@ submodules: git-test
 cli-base: submodules
 	echo "Syncing core CLI sources..."
 	cd tacc-cli-base ; \
+	git pull origin master ; \
+	cd ..
+	cd abaco-cli ; \
 	git pull origin master
+    
 
 .SILENT: customize
 customize: cli-base
