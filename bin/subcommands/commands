@@ -388,7 +388,7 @@ Command Classes:
   tags              Print tags command summaries
   tenants           Print tenants command summaries
   transforms        Print transforms command summaries
-  abaco             Pring abaco command summaries
+  abaco             Print abaco command summaries
 
 EOF
 
