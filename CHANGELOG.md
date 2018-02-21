@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## Version 1.0.7 - 2/21/2018
+### Changed
+* updated Agave CLI submodule to include a few fixes, including improved auth-switch
+
 ## Version 1.0.6 - 1/31/2018
 ### Changed
 * updated the info subcommand to fix updating.
