@@ -33,7 +33,7 @@ function check_update {
 	if [ -z "$CLOUD_CLI_NO_CHECK"  ]
 	then
 
-		AVAILABLE=$(curl -skL "https://raw.githubusercontent.com/SD2E/sd2e-cli/master/VERSION")
+		AVAILABLE=$(curl -skL -H "Cache-Control: no-cache" "https://raw.githubusercontent.com/SD2E/sd2e-cli/master/VERSION")
 		UPDATE_AVAILABLE=$(awk -v n1=$SDK_VERSION -v n2=$AVAILABLE 'BEGIN {if (n1<n2) printf ("1"); else printf ("0");}')
 		if [ ${UPDATE_AVAILABLE} -eq 1 ];
 		then

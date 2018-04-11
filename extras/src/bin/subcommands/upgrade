@@ -29,7 +29,7 @@ function check_update {
 	if [ -z "$CLOUD_CLI_NO_CHECK"  ]
 	then
 
-		AVAILABLE=$(curl -skL "https://raw.githubusercontent.com/SD2E/sd2e-cli/master/VERSION")
+		AVAILABLE=$(curl -skL -H "Cache-Control: no-cache" "https://raw.githubusercontent.com/SD2E/sd2e-cli/master/VERSION")
 		if [ -z $SDK_VERSION ]; then
 			echo "Current version is unknown."
 			echo "To force the latest installation, please use the --force flag"
