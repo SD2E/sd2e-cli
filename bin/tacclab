@@ -1,0 +1,52 @@
+#!/bin/bash
+#
+# gitlab
+#
+# Manage interaction with a Gitlab hosted service. This is a wrapper that
+# implements a TACC.cloud-specific authenticiation flow and can optionally
+# expose gitlab-cli (https://github.com/clns/gitlab-cli) under the same
+# command namespace
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+source ${DIR}/cli-common.sh
+source ${DIR}/tacclab-common.sh
+
+function usage() {
+
+cat <<EOF
+$(basename $0)
+Usage: $(basename $0) [COMMAND]
+
+Manage interactions with TACC.cloud Gitlab service.
+
+Commands:
+    login    - Log in to a TACC.cloud Gitlab
+    logout   - Log out from Gitlab
+    projects - Manage Gitlab projects
+    groups   - Manage Gitlab groups
+    keys     - Manage SSH keys
+    version  - Display CLI and Gitlab versions
+    license  - Display license and usage policy
+    help     - Show usage information
+EOF
+
+}
+
+case "$1" in
+    login) shift;
+        bash ${DIR}/tacclab-login.sh "$@" ;;
+    logout) shift;
+        bash ${DIR}/tacclab-logout.sh "$@" ;;
+    projects) shift;
+        bash ${DIR}/tacclab-projects.sh "$@" ;;
+    keys) shift;
+        bash ${DIR}/tacclab-keys.sh "$@" ;;
+    groups) shift;
+        bash ${DIR}/tacclab-groups.sh "$@" ;;
+    version) version; safe_exit ;;
+    license) terms; safe_exit ;;
+    -h|--help|help) usage; safe_exit ;;
+    *)
+        usage; safe_exit ;;
+esac
