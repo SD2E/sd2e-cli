@@ -93,10 +93,9 @@ uninstall:
 	@echo "Uninstalling $(PREFIX)/$(OBJ)"
 	test -d $(PREFIX)/$(OBJ) && rm -rf $(PREFIX)/$(OBJ)
 
-.SILENT: update
 update: clean git-test
-	git pull
-	if [ $$? -eq 0 ] ; then echo "Now, run make && make install."; exit 0; fi
+	command git pull
+	@echo "Now, run make && make install"
 
 
 # Application tests
