@@ -114,12 +114,8 @@ sed-test:
 	echo "Checking for BSD sed..."
 	if [[ "`uname`" =~ "Darwin" ]]; then SED = " ''"; echo "Detected: Changing -i behavior."; fi
 
-.SILENT: git-test
 git-test:
-	echo "Verifying that git is installed..."
-	GIT_INFO=`git --version > /dev/null`
-	if [ $$? -ne 0 ] ; then echo "Git not found or unable to be executed. Exiting." ; exit 1 ; fi
-	git --version
+	@command git --version
 
 # Docker image
 docker: customize
