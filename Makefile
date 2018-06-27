@@ -1,5 +1,13 @@
-# Matthew Vaughn
-# Aug 27, 2017
+# Authors: Matthew Vaughn, John Fonner, and Jorge Alarcon Ochoa
+#
+# Building the sd2e-cli application requires configuration values present in
+# the file configuration.rc (there is an example of what this file is
+# supposed to look like in config/sample.configuration.rc). 
+# To build get the template simply run `make init`.
+#
+# To make a tarball make `dist`.
+# To make a tarball and push an official release by means of a git tag make 
+# `release`.
 
 -include configuration.rc
 
@@ -51,12 +59,13 @@ extras: customize configuration.rc
 	@echo "Building tenant-specific extensions..."
 	test -f extras/Makefile && make -C extras
 
-# Pakcage tgz for public release
+# Package a tarball for public release.
 dist: all
 	tar -czf "$(OBJ).tgz" $(OBJ)
 	rm -rf $(OBJ)
 	@echo "Ready for release. "
 
+# Package application and push a tag. 
 release: dist
 	@echo "Releasing $(TENANT_NAME) v$(sdk_version) for Science API $(api_release)"
 	git tag -a "v$(sdk_version)" -m "Release $(MAKE_OBJ) version v$(sdk_version)"
