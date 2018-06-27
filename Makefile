@@ -52,11 +52,10 @@ extras: customize configuration.rc
 	test -f extras/Makefile && make -C extras
 
 # Pakcage tgz for public release
-.SILENT: dist
 dist: all
 	tar -czf "$(OBJ).tgz" $(OBJ)
 	rm -rf $(OBJ)
-	echo "Ready for release. "
+	@echo "Ready for release. "
 
 release: dist
 	@echo "Releasing $(TENANT_NAME) v$(sdk_version) for Science API $(api_release)"
