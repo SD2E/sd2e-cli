@@ -80,7 +80,7 @@ clean:
 	rm -rf $(OBJ)
 	test -f extras/Makefile && make -C extras
 
-pristine: clean
+distclean: clean
 	build/config.sh delete
 
 
