@@ -77,9 +77,8 @@ release: dist
 	git tag -a "v$(sdk_version)" -m "Release $(MAKE_OBJ) version v$(sdk_version)"
 	git push origin "v$(sdk_version)"
 
-.SILENT: test
 test:
-	echo "Not implemented"
+	@echo "Not implemented"
 
 .PHONY: clean
 clean:
