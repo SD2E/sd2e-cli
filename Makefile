@@ -84,12 +84,10 @@ distclean: clean
 	build/config.sh delete
 
 
-.SILENT: install
 install: $(OBJ)
+	@echo "Installing in $(PREFIX)/$(OBJ)"
+	@echo "Ensure that $(PREFIX)/$(OBJ)/bin is in your PATH."
 	cp -fr $(OBJ) $(PREFIX)
-	rm -rf $(OBJ)
-	echo "Installed in $(PREFIX)/$(OBJ)"
-	echo "Ensure that $(PREFIX)/$(OBJ)/bin is in your PATH."
 
 .SILENT: uninstall
 uninstall:
