@@ -60,7 +60,7 @@ extras: customize configuration.rc
 	test -f extras/Makefile && make -C extras
 
 # Package a tarball for public release.
-dist: all
+dist: all configuration.rc
 	tar -czf "$(OBJ).tgz" $(OBJ)
 	rm -rf $(OBJ)
 	@echo "Ready for release. "
@@ -94,7 +94,7 @@ uninstall:
 	test -d $(PREFIX)/$(OBJ) && rm -rf $(PREFIX)/$(OBJ)
 
 update: clean git-test
-	command git pull
+	$(command) git pull
 	@echo "Now, run make && make install"
 
 
@@ -104,7 +104,7 @@ sed-test:
 	if [[ "`uname`" =~ "Darwin" ]]; then SED = " ''"; echo "Detected: Changing -i behavior."; fi
 
 git-test:
-	@command git --version
+	@$(command) git --version
 
 
 # Docker image
