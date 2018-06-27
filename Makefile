@@ -28,24 +28,20 @@ init:
 	@echo "Creating config files. Don't forget to customize them!"
 	build/config.sh
 
-.SILENT: submodules
 submodules: git-test
-	echo "Configuring submodules"
+	@echo "Configuring submodules"
 	build/submodules.sh
 
-.SILENT: cli-base
 cli-base: submodules
-	echo "Syncing core CLI sources..."
+	@echo "Syncing core CLI sources..."
 	cd tacc-cli-base ; \
 	git pull origin master ; \
-	cd ..
-	cd abaco-cli ; \
+	cd ../abaco-cli ; \
 	git pull origin master
     
 
-.SILENT: customize
 customize: cli-base
-	echo "Customizing..."
+	@echo "Customizing..."
 	build/customize.sh "$(OBJ)"
 	#find $(OBJ)/bin -type f ! -name '*.sh' ! -name '*.py' -exec chmod a+rx {} \;
 
@@ -76,8 +72,9 @@ release: dist
 	git tag -a "v$(sdk_version)" -m "Release $(MAKE_OBJ) version v$(sdk_version)"
 	git push origin "v$(sdk_version)"
 
+
 test:
-	@echo "Not implemented"
+	@echo "Not tests implemented"
 
 .PHONY: clean
 clean:
@@ -107,14 +104,15 @@ update: clean git-test
 	git pull
 	if [ $$? -eq 0 ] ; then echo "Now, run make && make install."; exit 0; fi
 
+
 # Application tests
-.SILENT: sed-test
 sed-test:
-	echo "Checking for BSD sed..."
+	@echo "Checking for BSD sed..."
 	if [[ "`uname`" =~ "Darwin" ]]; then SED = " ''"; echo "Detected: Changing -i behavior."; fi
 
 git-test:
 	@command git --version
+
 
 # Docker image
 docker: customize
@@ -125,5 +123,3 @@ docker-release: docker
 
 docker-clean:
 	build/docker.sh $(TENANT_DOCKER_TAG) $(sdk_version) clean
-
-
