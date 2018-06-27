@@ -75,17 +75,14 @@ release: dist
 test:
 	@echo "Not tests implemented"
 
-.PHONY: clean
+
 clean:
 	rm -rf $(OBJ)
-	if [ -f "extras/Makefile" ]; then \
-		cd extras ; \
-		make clean ; \
-	fi
+	test -f extras/Makefile && make -C extras
 
-.PHONY: pristine
 pristine: clean
 	build/config.sh delete
+
 
 .SILENT: install
 install: $(OBJ)
