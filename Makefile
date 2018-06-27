@@ -45,20 +45,11 @@ customize: cli-base
 	build/customize.sh "$(OBJ)"
 	#find $(OBJ)/bin -type f ! -name '*.sh' ! -name '*.py' -exec chmod a+rx {} \;
 
-.SILENT: extras
 extras: customize configuration.rc
-	echo "Syncing tenant-specific extensions..."
-	if [ -d "extras" ]; then \
-		cd extras ; \
-		if [ -d ".git" ]; then \
-			git pull origin master ; \
-		fi ; \
-	fi
-	echo "Building tenant-specific extensions..."
-	if [ -f "extras/Makefile" ]; then \
-		cd extras ; \
-		make all ; \
-	fi
+	@echo "Syncing tenant-specific extensions..."
+	test -d extras/.git && cd extras && git pull origin master
+	@echo "Building tenant-specific extensions..."
+	test -f extras/Makefile && make -C extras
 
 # Pakcage tgz for public release
 .SILENT: dist
