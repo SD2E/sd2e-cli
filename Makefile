@@ -89,9 +89,9 @@ install: $(OBJ)
 	@echo "Ensure that $(PREFIX)/$(OBJ)/bin is in your PATH."
 	cp -fr $(OBJ) $(PREFIX)
 
-.SILENT: uninstall
 uninstall:
-	if [ -d $(PREFIX)/$(OBJ) ]; then rm -rf $(PREFIX)/$(OBJ); echo "Uninstalled $(PREFIX)/$(OBJ)."; exit 0; fi
+	@echo "Uninstalling $(PREFIX)/$(OBJ)"
+	test -d $(PREFIX)/$(OBJ) && rm -rf $(PREFIX)/$(OBJ)
 
 .SILENT: update
 update: clean git-test
