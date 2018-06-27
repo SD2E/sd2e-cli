@@ -72,13 +72,10 @@ dist: all
 	rm -rf $(OBJ)
 	echo "Ready for release. "
 
-.SILENT: release
 release: dist
-	set -x
-	echo "Releasing $(TENANT_NAME) v$(sdk_version) for Science API $(api_release)"
+	@echo "Releasing $(TENANT_NAME) v$(sdk_version) for Science API $(api_release)"
 	git tag -a "v$(sdk_version)" -m "Release $(MAKE_OBJ) version v$(sdk_version)"
 	git push origin "v$(sdk_version)"
-	set +x
 
 .SILENT: test
 test:
