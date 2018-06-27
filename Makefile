@@ -24,9 +24,8 @@ SED = ''
 
 all: $(SOURCES)
 
-.SILENT: init
 init:
-	echo "Creating config files. Don't forget to customize them!"
+	@echo "Creating config files. Don't forget to customize them!"
 	build/config.sh
 
 .SILENT: submodules
