@@ -1,7 +1,7 @@
 # Matthew Vaughn
 # Aug 27, 2017
 
-include configuration.rc
+-include configuration.rc
 
 sdk_version := $(shell cat VERSION)
 api_version := v2
@@ -51,7 +51,7 @@ customize: cli-base
 	#find $(OBJ)/bin -type f ! -name '*.sh' ! -name '*.py' -exec chmod a+rx {} \;
 
 .SILENT: extras
-extras: customize
+extras: customize configuration.rc
 	echo "Syncing tenant-specific extensions..."
 	if [ -d "extras" ]; then \
 		cd extras ; \
