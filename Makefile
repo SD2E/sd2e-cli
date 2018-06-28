@@ -33,22 +33,22 @@ SED = ''
 all: $(SOURCES)
 
 init:
-	@echo "Creating config files. Don't forget to customize them!"
+	@echo " + Creating config files. Don't forget to customize them!"
 	build/config.sh
 
 submodules: git-test
-	@echo "Configuring submodules"
+	@echo " + Configuring submodules..."
 	build/submodules.sh
 
 customize: submodules
-	@echo "Customizing..."
+	@echo " + Customizing..."
 	build/customize.sh "$(OBJ)"
 	#find $(OBJ)/bin -type f ! -name '*.sh' ! -name '*.py' -exec chmod a+rx {} \;
 
 extras: customize configuration.rc
-	@echo "Syncing tenant-specific extensions..."
+	@echo " + Syncing tenant-specific extensions..."
 	test -d extras/.git && cd extras && git pull origin master
-	@echo "Building tenant-specific extensions..."
+	@echo " + Building tenant-specific extensions..."
 	test -f extras/Makefile && make -C extras
 
 # Package a tarball for public release.
