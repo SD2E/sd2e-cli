@@ -69,7 +69,7 @@ test:
 
 clean:
 	rm -rf $(OBJ)
-	test -f extras/Makefile && make -C extras
+	test -f extras/Makefile && make -C extras clean
 
 distclean: clean
 	build/config.sh delete
