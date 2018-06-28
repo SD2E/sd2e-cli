@@ -30,6 +30,9 @@ then
 fi
 
 
+# ABACO_CLI_REPO is an environment variable specified in `configuration.rc` at
+# the root of the dev tree (see `config/sample.configuration.rc` for an
+# example). This varibale corresponds to the uri for the Abaco cli.
 if [ ! -z "$ABACO_CLI_REPO" ]
 then
     submod $ABACO_CLI_REPO $ABACO_BASE_DEST $ABACO_BASE_BRANCH
