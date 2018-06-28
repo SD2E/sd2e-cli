@@ -6,7 +6,8 @@
 
 
 # submod - adds a submodule to a specified location and pulls the latest
-# commits of a specified branch.
+# commits of a specified branch. If submodule already exists then it just
+# populates the module.
 #
 # REPO   - uri of repo to add as submodule.
 # DEST   - destination of where to add the module with respect to the root of
@@ -23,11 +24,13 @@ function submod() {
         BRANCH="master"
     fi
     
-    {
-        git submodule add $REPO $DEST && cd $DEST && git checkout $BRANCH && git pull origin $BRANCH
-    } || {
-        echo "$REPO not added as a submodule"
-    }
+    (
+        git submodule add $REPO $DEST && \
+            git submodule update --init && git pull origin $BRANCH
+    ) || (
+        echo "$REPO is already a submodule" && \
+            git submodule update --init && git pull origin $BRANCH
+    )
 
 }
 
