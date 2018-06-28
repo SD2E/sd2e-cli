@@ -5,6 +5,7 @@
 # Add and update submodules.
 
 
+
 # submod - adds a submodule to a specified location and pulls the latest
 # commits of a specified branch. If submodule already exists then it just
 # populates the module.
@@ -17,21 +18,13 @@ function submod() {
 
     local REPO=$1
     local DEST=$2
-    local BRANCH=$3
+    local BRANCH=${3:-master}
 
-    if [ -n "$BRANCH" ];
-    then
-        BRANCH="master"
-    fi
+    git submodule add $REPO $DEST
+
+    git submodule update --init $DEST 
     
-    (
-        git submodule add $REPO $DEST && \
-            git submodule update --init && git pull origin $BRANCH
-    ) || (
-        echo "$REPO is already a submodule" && \
-            git submodule update --init && git pull origin $BRANCH
-    )
-
+    ( cd $DEST && git checkout $BRANCH )
 }
 
 # CLI_BASE_REPO is an environment variable specified in `configuration.rc` at
