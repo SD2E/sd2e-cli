@@ -3,7 +3,14 @@
 # submodules.sh
 #
 # Add and update submodules.
-
+#
+# CLI_BASE_REPO is an environment variable specified in `configuration.rc` at   
+# the root of the dev tree (see `config/sample.configuration.rc` for an         
+# example). This environment variable corresponds to the uri of the Agave cli.
+#
+# ABACO_CLI_REPO is an environment variable specified in `configuration.rc` at
+# the root of the dev tree (see `config/sample.configuration.rc` for an
+# example). This varibale corresponds to the uri for the Abaco cli.
 
 
 # submod - adds a submodule to a specified location and pulls the latest
@@ -27,18 +34,13 @@ function submod() {
     ( cd $DEST && git checkout $BRANCH )
 }
 
-# CLI_BASE_REPO is an environment variable specified in `configuration.rc` at
-# the root of the dev tree (see `config/sample.configuration.rc` for an
-# example). This environment variable corresponds to the uri of the Agave cli.
+# Agave CLI.
 if [ ! -z "$CLI_BASE_REPO" ]
 then
     submod $CLI_BASE_REPO $CLI_BASE_DEST $CLI_BASE_BRANCH
 fi
 
-
-# ABACO_CLI_REPO is an environment variable specified in `configuration.rc` at
-# the root of the dev tree (see `config/sample.configuration.rc` for an
-# example). This varibale corresponds to the uri for the Abaco cli.
+# Abaco CLI.
 if [ ! -z "$ABACO_CLI_REPO" ]
 then
     submod $ABACO_CLI_REPO $ABACO_CLI_DEST $ABACO_CLI_BRANCH
