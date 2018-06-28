@@ -12,5 +12,4 @@ do
 done
 
 # User storage and excution system templates
-cp -fR src/templates/*.jsonx ${_DEST}/templates
 cp -fR src/bin ${_DEST}/
