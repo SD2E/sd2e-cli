@@ -12,12 +12,3 @@ fi
 cp -fR tacc-cli-base/* ${TARGET}/
 cp -fR abaco-cli/* ${TARGET}/bin
 cp VERSION ${TARGET}/SDK-VERSION
-
-
-# Extras
-if [ -f "extras/Makefile" ];
-then
-    cd extras && make && make install
-else
-    rsync --exclude=".*" --exclude=".*/" -azp ./extras/ tacc-cloud-cli
-fi
