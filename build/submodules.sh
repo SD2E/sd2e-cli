@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-
+#
+# submodules.sh
+#
 
 
 function submod() {
@@ -35,5 +37,5 @@ fi
 # example). This varibale corresponds to the uri for the Abaco cli.
 if [ ! -z "$ABACO_CLI_REPO" ]
 then
-    submod $ABACO_CLI_REPO $ABACO_BASE_DEST $ABACO_BASE_BRANCH
+    submod $ABACO_CLI_REPO $ABACO_CLI_DEST $ABACO_CLI_BRANCH
 fi
