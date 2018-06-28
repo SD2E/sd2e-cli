@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+
+
 function submod() {
 
     local REPO=$1
@@ -19,10 +21,14 @@ function submod() {
 
 }
 
+# CLI_BASE_REPO is an environment variable specified in `configuration.rc` at
+# the root of the dev tree (see `config/sample.configuration.rc` for an
+# example). This environment variable corresponds to the uri of the Agave cli.
 if [ ! -z "CLI_BASE_REPO" ]
 then
     submod $CLI_BASE_REPO $CLI_BASE_DEST $CLI_BASE_BRANCH
 fi
+
 
 if [ ! -z "ABACO_BASE_REPO" ]
 then
