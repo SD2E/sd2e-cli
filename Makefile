@@ -43,7 +43,6 @@ submodules: git-test
 customize: submodules
 	@echo " + Customizing..."
 	build/customize.sh "$(OBJ)"
-	#find $(OBJ)/bin -type f ! -name '*.sh' ! -name '*.py' -exec chmod a+rx {} \;
 
 extras: customize configuration.rc
 	@echo " + Syncing tenant-specific extensions..."
@@ -70,7 +69,7 @@ test:
 
 clean:
 	rm -rf $(OBJ)
-	test -f extras/Makefile && make -C extras
+	test -f extras/Makefile && make -C extras clean
 
 distclean: clean
 	build/config.sh delete

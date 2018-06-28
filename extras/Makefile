@@ -1,12 +1,12 @@
 SOURCES = extras
 
 all:
-	@echo "Building extras..."
-	./build.sh "artifacts"
+	@echo " + Building extras..."
+	./build.sh artifacts
 
 install: all
-	@echo "Installing extras..."
+	@echo " + Installing extras..."
 	rsync --exclude=".*" --exclude=".*/" -azp ./artifacts/ ../$(MAKE_OBJ)
 
 clean:
-	rm -rf "artifacts"
+	rm -rf artifacts
