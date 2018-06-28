@@ -40,15 +40,7 @@ submodules: git-test
 	@echo "Configuring submodules"
 	build/submodules.sh
 
-cli-base: submodules
-	@echo "Syncing core CLI sources..."
-	cd tacc-cli-base ; \
-	git pull origin master ; \
-	cd ../abaco-cli ; \
-	git pull origin master
-    
-
-customize: cli-base
+customize: submodules
 	@echo "Customizing..."
 	build/customize.sh "$(OBJ)"
 	#find $(OBJ)/bin -type f ! -name '*.sh' ! -name '*.py' -exec chmod a+rx {} \;
