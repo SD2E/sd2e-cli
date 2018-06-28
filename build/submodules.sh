@@ -30,7 +30,7 @@ then
 fi
 
 
-if [ ! -z "ABACO_BASE_REPO" ]
+if [ ! -z "$ABACO_CLI_REPO" ]
 then
-    submod $ABACO_BASE_REPO $ABACO_BASE_DEST $ABACO_BASE_BRANCH
+    submod $ABACO_CLI_REPO $ABACO_BASE_DEST $ABACO_BASE_BRANCH
 fi
