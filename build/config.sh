@@ -20,7 +20,9 @@ do
         fi
     elif [ "$CMD" == "delete" ];
     then
-        rm -f $CONF && echo "Deleted file $CONF"
+        if [ "$CONF" == "Dockerfile" ] || [ "$CONF" == "CNAME" ]; then
+            rm -f $CONF && echo "Deleted file $CONF"    
+        fi
     fi
 
 done
