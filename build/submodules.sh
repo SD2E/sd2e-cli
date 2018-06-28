@@ -2,8 +2,16 @@
 #
 # submodules.sh
 #
+# Add and update submodules.
 
 
+# submod - adds a submodule to a specified location and pulls the latest
+# commits of a specified branch.
+#
+# REPO   - uri of repo to add as submodule.
+# DEST   - destination of where to add the module with respect to the root of
+# this repo.
+# BRANCH - branch to build off of.
 function submod() {
 
     local REPO=$1
