@@ -24,7 +24,7 @@ function submod() {
 # CLI_BASE_REPO is an environment variable specified in `configuration.rc` at
 # the root of the dev tree (see `config/sample.configuration.rc` for an
 # example). This environment variable corresponds to the uri of the Agave cli.
-if [ ! -z "CLI_BASE_REPO" ]
+if [ ! -z "$CLI_BASE_REPO" ]
 then
     submod $CLI_BASE_REPO $CLI_BASE_DEST $CLI_BASE_BRANCH
 fi
