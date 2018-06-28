@@ -1,5 +1,3 @@
-
-_DEST := $(MAKE_OBJ)
 SOURCES = extras
 
 all:
