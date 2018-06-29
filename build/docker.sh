@@ -15,8 +15,7 @@ function die {
 
 }
 
-DOCKER_INFO=`docker info > /dev/null`
-if [ $? -ne 0 ] ; then die "Docker not found or unreachable. Exiting." ; fi
+
 
 if [ "$COMMAND" == 'build' ];
 then

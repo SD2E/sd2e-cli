@@ -87,12 +87,15 @@ sed-test:
 	@echo "Checking for BSD sed..."
 	if [[ "`uname`" =~ "Darwin" ]]; then SED = " ''"; echo "Detected: Changing -i behavior."; fi
 
+docker-test:
+	@$(command) docker --version
+
 git-test:
 	@$(command) git --version
 
 
 # Docker image
-docker: customize
+docker: customize docker-test
 	build/docker.sh $(TENANT_DOCKER_TAG) $(sdk_version) build
 
 docker-release: docker
