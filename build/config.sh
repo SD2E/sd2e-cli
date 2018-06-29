@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+#
+# config.sh
+#
+# "create" or "delete" files needed to build the source for this repo.
+#
 
 CMD=$1
 
@@ -24,5 +29,4 @@ do
             rm -f $CONF && echo "Deleted file $CONF"    
         fi
     fi
-
 done
