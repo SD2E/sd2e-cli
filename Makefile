@@ -40,15 +40,10 @@ submodules: git-test
 	@echo " + Configuring submodules..."
 	build/submodules.sh
 
-customize: submodules
+customize: submodules configuration.rc
 	@echo " + Customizing..."
 	build/customize.sh "$(OBJ)"
 
-extras: customize configuration.rc
-	@echo " + Syncing tenant-specific extensions..."
-	test -d extras/.git && cd extras && git pull origin master
-	@echo " + Building tenant-specific extensions..."
-	test -f extras/Makefile && make -C extras
 
 # Package a tarball for public release.
 dist: all configuration.rc
