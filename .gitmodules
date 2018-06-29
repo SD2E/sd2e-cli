@@ -1,6 +1,3 @@
-[submodule "tacc-cli-base"]
-	path = tacc-cli-base
-	url = https://bitbucket.org/tacc-cic/cli.git
 [submodule "abaco-cli"]
 	path = abaco-cli
 	url = https://github.com/TACC-Reactors/abaco-cli.git
