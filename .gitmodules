@@ -2,3 +2,6 @@
 	path = abaco-cli
 	url = https://github.com/TACC-Reactors/abaco-cli.git
 	branch = master
+[submodule "agave-cli"]
+	path = agave-cli
+	url = https://github.com/TACC-Cloud/agave-cli.git
