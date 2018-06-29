@@ -4,11 +4,13 @@ IMAGENAME=$1
 SDKVERSION=$2
 COMMAND=$3
 
+# Build container image by default.
 if [ -z "$COMMAND" ]; then COMMAND="build"; fi
 
-function die {
 
-	die "$1"
+# die - print error message and early terminate with error status.
+function die {
+	echo "$1"
 	exit 1
 
 }
