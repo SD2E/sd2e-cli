@@ -15,13 +15,15 @@ sdk_version := $(shell cat VERSION)
 api_version := v2
 api_release := 2.2.5
 
+# Installation prefix.
 PREFIX := $(HOME)
 
+# Agave tenant specific values.
 TENANT_NAME := $(TENANT_NAME)
 TENANT_KEY := $(TENANT_KEY)
-TENANT_SCRIPT_NS := $(TENANT_SCRIPT_NS)
 TENANT_DOCKER_DOCKER_FILE := $(TENANT_DOCKERFILE)
 TENANT_DOCKER_TAG := $(TENANT_DOCKER_TAG)
+TENANT_SCRIPT_NS := $(TENANT_SCRIPT_NS)
 SDK_GIT_REPO := $(TENANT_SDK_REPO)
 
 OBJ := $(MAKE_OBJ)
@@ -84,7 +86,7 @@ update: clean git-test
 	@echo "Now, run make && make install"
 
 
-# Application tests
+# Application tests.
 sed-test:
 	@echo "Checking for BSD sed..."
 	if [[ "`uname`" =~ "Darwin" ]]; then SED = " ''"; echo "Detected: Changing -i behavior."; fi
