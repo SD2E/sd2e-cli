@@ -103,5 +103,5 @@ docker: customize docker-test
 docker-release: docker
 	build/docker.sh $(TENANT_DOCKER_TAG) $(sdk_version) release
 
-docker-clean:
+docker-clean: docker-test
 	build/docker.sh $(TENANT_DOCKER_TAG) $(sdk_version) clean
