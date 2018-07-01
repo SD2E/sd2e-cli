@@ -44,9 +44,15 @@ export CLI_EXTRAS_DEST=extras
 # Dont' change below this line unless you know what you're doing!
 
 # Submodules
+# Agave CLI
 export CLI_BASE_REPO=https://bitbucket.org/tacc-cic/cli
 export CLI_BASE_BRANCH=master
-export CLI_BASE_DEST=tacc-cli-base
+export CLI_BASE_DEST=agave-cli
+
+# Abaco CLI                                                                     
+export ABACO_CLI_REPO=https://github.com/TACC-Reactors/abaco-cli.git            
+export ABACO_CLI_BRANCH=master                                                  
+export ABACO_CLI_DEST=abaco-cli
 
 # Make support
 export MAKE_OBJ=tacc-cloud-cli

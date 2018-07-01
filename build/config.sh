@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+#
+# config.sh
+#
+# "create" or "delete" files needed to build the source for this repo.
+#
 
 CMD=$1
 
@@ -20,7 +25,8 @@ do
         fi
     elif [ "$CMD" == "delete" ];
     then
-        rm -f $CONF && echo "Deleted file $CONF"
+        if [ "$CONF" == "Dockerfile" ] || [ "$CONF" == "CNAME" ]; then
+            rm -f $CONF && echo "Deleted file $CONF"    
+        fi
     fi
-
 done
