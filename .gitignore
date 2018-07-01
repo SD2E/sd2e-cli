@@ -2,7 +2,7 @@
 *__pycache__*
 *.pyc
 abaco-cli/*
-tacc-cloud-cli/*
+agave-cli/*
 extras/artifacts/*
 CNAME
 _config.yml
