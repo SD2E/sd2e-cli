@@ -260,7 +260,13 @@ tmp_dir="$tmp/install.sh.$$"
 
 ### INSTALLER
 
-channel="master"
+# if the environment variable CLI_DEVELOP is set, pull from the develop branch.
+if [ -n "$CLI_DEVELOP" ]; then
+    channel="develop"
+else
+    channel="master"
+fi
+
 archive="${_CLI_DEST}.tgz"
 cd $tmp_dir
 

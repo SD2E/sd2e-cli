@@ -4,9 +4,9 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # get SDK version
 if [ -f $DIR/../../SDK-VERSION ]; then
-	SDK_VERSION=$(cat $DIR/../../SDK-VERSION)
+    SDK_VERSION=$(cat $DIR/../../SDK-VERSION)
 elif [ -f $DIR/../../VERSION ]; then
-	SDK_VERSION=$(cat $DIR/../../VERSION)
+    SDK_VERSION=$(cat $DIR/../../VERSION)
 else
     SDK_VERSION=
 fi
@@ -22,45 +22,66 @@ Check for a newer release of the SD2E CLI tools.
 "
 }
 
+case "$1" in
+    -d|--develop)    shift;
+        develop=1;;
+
+    -h|--help)       shift;
+        help=1;;
+
+    --force)         shift;
+        force=1;;
+
+  *)                shift;
+    echo "$HELP"; exit 0;;
+esac
+
 function check_update {
 
-	UPDATE_AVAILABLE=0
+    UPDATE_AVAILABLE=0
 
-	if [ -z "$CLOUD_CLI_NO_CHECK"  ]
-	then
+    if [ -z "$CLOUD_CLI_NO_CHECK"  ]
+    then
 
-		AVAILABLE=$(curl -skL -H "Cache-Control: no-cache" "https://raw.githubusercontent.com/SD2E/sd2e-cli/master/VERSION")
-		if [ -z $SDK_VERSION ]; then
-			echo "Current version is unknown."
-			echo "To force the latest installation, please use the --force flag"
+        AVAILABLE=$(curl -skL -H "Cache-Control: no-cache" "https://raw.githubusercontent.com/SD2E/sd2e-cli/master/VERSION")
+        if [ -z $SDK_VERSION ]; then
+            echo "Current version is unknown."
+            echo "To force the latest installation, please use the --force flag"
         else
-			UPDATE_AVAILABLE=$(awk -v n1=$SDK_VERSION -v n2=$AVAILABLE 'BEGIN {if (n1<n2) printf ("1"); else printf ("0");}')
-		fi
+            UPDATE_AVAILABLE=$(awk -v n1=$SDK_VERSION -v n2=$AVAILABLE 'BEGIN {if (n1<n2) printf ("1"); else printf ("0");}')
+        fi
 
-		if [ ${UPDATE_AVAILABLE} -eq 1 ];
-		then
-			echo "Updating from version $SDK_VERSION (installed) to version $AVAILABLE (available)"
-			do_upgrade_cli
-		else
-			echo "Already up to date (version $SDK_VERSION)."
-		fi
-	fi
+        if [ ${UPDATE_AVAILABLE} -eq 1 ] || [ "$develop" -eq 1 ];
+        then
+            echo "Updating from version $SDK_VERSION (installed) to version $AVAILABLE (available)"
+            do_upgrade_cli
+        else
+            echo "Already up to date (version $SDK_VERSION)."
+        fi
+    fi
 }
 
 function do_upgrade_cli {
 
-	mytmpdir=`mktemp -d 2>/dev/null || mktemp -d -t 'mytmpdir'`
-	curl -skL -o ${mytmpdir}/sd2e-cloud-cli.tgz "https://raw.githubusercontent.com/SD2E/sd2e-cli/master/sd2e-cloud-cli.tgz"
-	tar -xzf ${mytmpdir}/sd2e-cloud-cli.tgz -C "$DIR/../../../" && \
-	rm -rf ${mytmpdir}
-	echo "Done."
+    mytmpdir=`mktemp -d 2>/dev/null || mktemp -d -t 'mytmpdir'`
+    if [ "$develop" -eq 1 ]; then
+        curl -skL -o ${mytmpdir}/sd2e-cloud-cli.tgz "https://raw.githubusercontent.com/SD2E/sd2e-cli/develop/sd2e-cloud-cli.tgz"
+    else
+        curl -skL -o ${mytmpdir}/sd2e-cloud-cli.tgz "https://raw.githubusercontent.com/SD2E/sd2e-cli/master/sd2e-cloud-cli.tgz"
+    fi
+    tar -xzf ${mytmpdir}/sd2e-cloud-cli.tgz -C "$DIR/../../../" && \
+    rm -rf ${mytmpdir}
+    echo "Done."
 
 }
 
-if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
-	usage
-elif [ "$1" == "--force" ]; then
-	do_upgrade_cli
+if [ "$help" -eq 1 ]; then
+    usage
+    exit
+fi
+
+if [ "force" -eq 1 ]; then
+    do_upgrade_cli
 else
     check_update
 fi
