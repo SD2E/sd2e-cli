@@ -15,6 +15,7 @@ then
     echo "Created target directory ${TARGET}."
 fi
 
-cp -fR tacc-cli-base/* ${TARGET}/
+cp -fR agave-cli/* ${TARGET}/
 cp -fR abaco-cli/* ${TARGET}/bin
+cp -fR bin/*       ${TARGET}/bin
 cp VERSION ${TARGET}/SDK-VERSION
