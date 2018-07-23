@@ -5,3 +5,4 @@
 [submodule "agave-cli"]
 	path = agave-cli
 	url = https://github.com/TACC-Cloud/agave-cli.git
+	branch = develop
