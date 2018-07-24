@@ -10,3 +10,5 @@ Dockerfile
 requirements.txt
 VERSION
 .DESIGN
+# This is a build artifact
+sd2e-cloud-cli/
