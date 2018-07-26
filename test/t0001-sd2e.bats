@@ -10,6 +10,12 @@ fixtures bats
   [ $(expr "${lines[0]}" : "These") -ne 0 ]
 }
 
+@test "sd2e info help text displays properly" {
+  run sd2e info -h
+  [ $status -eq 0 ]
+  [ $(expr "${lines[0]}" : "Information") -ne 0 ]
+}
+
 @test "sd2e info displays properly" {
   run sd2e info
   [ $status -eq 0 ]
@@ -19,7 +25,6 @@ fixtures bats
 @test "sd2e status check help text displays" {
   run sd2e status -h
   [ $status -eq 0 ]
-  echo "${lines[@]}"
   [ $(expr "${lines[0]}" : "usage") -ne 0 ]
 }
 

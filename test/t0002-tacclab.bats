@@ -7,5 +7,5 @@ fixtures bats
 @test "tacclab help text displays" {
   run tacclab -h
   [ $status -eq 0 ]
-  [ $(expr "${lines[3]}" : "tacclab") -ne 0 ]
+  [ $(expr "${lines[4]}" : "Usage") -ne 0 ]
 }

@@ -58,8 +58,10 @@ release: dist
 	git push origin "v$(sdk_version)"
 
 test-bats:
-	git clone --depth 1 https://github.com/sstephenson/bats.git test/tool/bats
-	test/tool/bats/bin/bats --tap test/
+	rm -rf test/tool/bats && git clone --depth 1 https://github.com/sstephenson/bats.git test/tool/bats
+	#test/tool/bats/bin/bats --tap test/
+	test/tool/bats/bin/bats test/
+	rm -rf test/tool/bats
 
 clean:
 	rm -rf $(OBJ)
