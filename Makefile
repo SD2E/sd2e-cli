@@ -26,6 +26,7 @@ TENANT_DOCKER_TAG := $(TENANT_DOCKER_TAG)
 
 OBJ := $(MAKE_OBJ)
 SOURCES = customize
+TAP = 
 
 # Local installation
 SED = ''
@@ -59,8 +60,7 @@ release: dist
 
 test-bats:
 	rm -rf test/tool/bats && git clone --depth 1 https://github.com/sstephenson/bats.git test/tool/bats
-	#test/tool/bats/bin/bats --tap test/
-	test/tool/bats/bin/bats test/
+	test/tool/bats/bin/bats ${TAP} test/
 	rm -rf test/tool/bats
 
 clean:
