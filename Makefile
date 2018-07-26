@@ -57,14 +57,14 @@ release: dist
 	git tag -a "v$(sdk_version)" -m "Release $(MAKE_OBJ) version v$(sdk_version)"
 	git push origin "v$(sdk_version)"
 
-
-test:
-	@echo "Not tests implemented"
-
+test-bats:
+	git clone --depth 1 https://github.com/sstephenson/bats.git test/tool/bats
+	test/tool/bats/bin/bats --tap test/
 
 clean:
 	rm -rf $(OBJ)
 	test -f extras/Makefile && make -C extras clean
+	rm -rf test/tool/bats
 
 distclean: clean
 	build/config.sh delete
