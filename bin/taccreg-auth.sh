@@ -18,7 +18,7 @@ function __decregpw() {
 
 function get_registry_user() {
 
-    regstore=$(tacc.kvget ${REGISTRY_STORE})
+    regstore=$(kvget $TACCLAB_CACHE_DIR ${REGISTRY_STORE})
 
     _username=$(echo ${regstore} | jq -r .username)
     if [ ! -z "${_username}" ] && [ "${_username}" != "null" ]; then
@@ -30,7 +30,7 @@ function get_registry_user() {
 
 function get_registry_org() {
 
-    regstore=$(tacc.kvget ${REGISTRY_STORE})
+    regstore=$(kvget $TACCLAB_CACHE_DIR ${REGISTRY_STORE})
 
     _organization=$(echo ${regstore} | jq -r .organization)
     if [ ! -z "${_organization}" ] && [ "${_organization}" != "null" ]; then
@@ -42,7 +42,7 @@ function get_registry_org() {
 
 function get_registry_pass() {
 
-    regstore=$(tacc.kvget ${REGISTRY_STORE})
+    regstore=$(kvget $TACCLAB_CACHE_DIR ${REGISTRY_STORE})
     _pass1=$(echo ${regstore} | jq -r .secure)
     if [ ! -z "${_pass1}" ] && [ "${_pass1}" != "null" ]; then
         _pass=$(__decregpw ${_pass1})
@@ -56,7 +56,7 @@ function get_registry_pass() {
 
 function get_registry_uri() {
 
-    regstore=$(tacc.kvget ${REGISTRY_STORE})
+    regstore=$(kvget $TACCLAB_CACHE_DIR ${REGISTRY_STORE})
     _reguri=$(echo ${regstore} | jq -r .baseurl)
     if [ ! -z "${_reguri}" ]; then
         echo ${_reguri}
@@ -76,7 +76,7 @@ function registry_login() {
             else
                 REGISTRY_LOGIN_SUCESS=1
                 TIMESTAMP=$(date +%s)
-                tacc.kvset ${REGISTRY_STORE} "{\"username\":\"${registryuser}\",\"secure\":\"$(__encregpw $registrypass)\",\"created_at\":\"${TIMESTAMP}\",\"expires_in\":\"-1\", \"organization\":\"${registryorg}\"}"
+                kvset $TACCLAB_CACHE_DIR ${REGISTRY_STORE} "{\"username\":\"${registryuser}\",\"secure\":\"$(__encregpw $registrypass)\",\"created_at\":\"${TIMESTAMP}\",\"expires_in\":\"-1\", \"organization\":\"${registryorg}\"}"
             fi
         else
             err "Both --username and --password must be supplied to authenticate to a Docker registry."
@@ -90,7 +90,7 @@ function registry_logout() {
     local _org=$(get_registry_org)
 
     docker logout ${registryuri} ; \
-        tacc.kvset ${REGISTRY_STORE} "{\"organization\":\"${_org}\",\"username\":\"${_user}\",\"secure\":\"\",\"created_at\":\"$TIMESTAMP\",\"expires_in\":\"-1\"}"
+        kvset $TACCLAB_CACHE_DIR ${REGISTRY_STORE} "{\"organization\":\"${_org}\",\"username\":\"${_user}\",\"secure\":\"\",\"created_at\":\"$TIMESTAMP\",\"expires_in\":\"-1\"}"
     REGISTRY_LOGIN_SUCESS=0
 
 }

@@ -81,7 +81,7 @@ format_api_json() {
           expires_at=`date -r $(expr $created_at + $expires_in)`
         fi
 
-        tacc.kvset $GITLAB_STORE "{\"tenantid\":\"$tenantid\",\"baseurl\":\"$(get_gitlab_uri)\",\"devurl\":\"$devurl\",\"username\":\"$gitlabusername\",\"access_token\":\"$gitlab_access_token\",\"refresh_token\":\"$gitlab_refresh_token\",\"created_at\":\"$created_at\",\"expires_in\":\"$expires_in\",\"expires_at\":\"$expires_at\"}"
+        kvset $TACCLAB_CACHE_DIR $GITLAB_STORE "{\"tenantid\":\"$tenantid\",\"baseurl\":\"$(get_gitlab_uri)\",\"devurl\":\"$devurl\",\"username\":\"$gitlabusername\",\"access_token\":\"$gitlab_access_token\",\"refresh_token\":\"$gitlab_refresh_token\",\"created_at\":\"$created_at\",\"expires_in\":\"$expires_in\",\"expires_at\":\"$expires_at\"}"
         stderr "Gitlab token for ${gitlab_tenantid}:${gitlabusername} stored";
     fi
 
@@ -120,7 +120,7 @@ done
 args=("$@")
 
 # if [ "$gitlab_disable_cache" -ne 1 ] && [ -z "$gitlab_access_token" ]; then # user did not specify an gitlab_access_token as an argument
-#     tokenstore=$(tacc.kvget ${GITLAB_STORE})
+#     tokenstore=$(kvget $TACCLAB_CACHE_DIR ${GITLAB_STORE})
 #     if [ -n "$tokenstore" ]; then
 #         jsonval gitlabusername "${tokenstore}" "username"
 #         jsonval gitlab_access_token "${tokenstore}" "access_token"
@@ -132,8 +132,8 @@ args=("$@")
 #             if [ ${token_life_remaining}  -lt  60 ]; then
 #                 stderr "Gitlab token has expired. Refreshing..."
 #                 gitlab_auto_auth_refresh
-#                 jsonval gitlab_access_token "$(tacc.kvget ${GITLAB_STORE})" "access_token"
-#                 jsonval gitlab_refresh_token "$(tacc.kvget ${GITLAB_STORE})" "refresh_token"
+#                 jsonval gitlab_access_token "$(kvget $TACCLAB_CACHE_DIR ${GITLAB_STORE})" "access_token"
+#                 jsonval gitlab_refresh_token "$(kvget $TACCLAB_CACHE_DIR ${GITLAB_STORE})" "refresh_token"
 #             fi
 #         fi
 #     fi

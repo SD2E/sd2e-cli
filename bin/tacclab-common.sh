@@ -103,7 +103,7 @@ function open_url() {
 function bootstrap() {
 
     calling_cli_command=`caller |  awk '{print $2}' | xargs -n 1 sh -c 'basename $0'`
-    local currentconfig=$(tacc.kvget ${1})
+    local currentconfig=$(kvget $TACCLAB_CACHE_DIR ${1})
 
     if [[ ! -z "${currentconfig}" ]]; then
         gitlab_baseurl=$(jsonquery "$currentconfig" "baseurl")
@@ -147,7 +147,7 @@ function pagination {
 
 function prompt_options() {
     # Can be overridden in tacclab-<function>.sh
-    local currentconfig=$(tacc.kvget ${GITLAB_STORE})
+    local currentconfig=$(kvget $TACCLAB_CACHE_DIR ${GITLAB_STORE})
 
     for val in ${interactive_opts[@]}; do
       if [[ $val == "username" ]]; then
@@ -228,7 +228,7 @@ function gitlab_auto_auth_refresh()
 					expires_at=`date -r $(expr $created_at + $expires_in)`
 				fi
 
-				tacc.kvset ${GITLAB_STORE} "{\"tenantid\":\"$tenantid\",\"baseurl\":\"$gitlab_baseurl\",\"devurl\":\"$devurl\",\"apisecret\":\"$apisecret\",\"apikey\":\"$apikey\",\"username\":\"$gitlabusername\",\"access_token\":\"$gitlab_access_token\",\"refresh_token\":\"$gitlab_refresh_token\",\"created_at\":\"$created_at\",\"expires_in\":\"$expires_in\",\"expires_at\":\"$expires_at\"}"
+				kvset $TACCLAB_CACHE_DIR ${GITLAB_STORE} "{\"tenantid\":\"$tenantid\",\"baseurl\":\"$gitlab_baseurl\",\"devurl\":\"$devurl\",\"apisecret\":\"$apisecret\",\"apikey\":\"$apikey\",\"username\":\"$gitlabusername\",\"access_token\":\"$gitlab_access_token\",\"refresh_token\":\"$gitlab_refresh_token\",\"created_at\":\"$created_at\",\"expires_in\":\"$expires_in\",\"expires_at\":\"$expires_at\"}"
                 tacclab_refreshed_ok=1
 				if  ((verbose)); then
 					stderr "Token for ${tenantid}:${gitlabusername} successfully refreshed and cached for ${expires_in} seconds"
@@ -242,7 +242,7 @@ function gitlab_auto_auth_refresh()
 
 function get_gitlab_username(){
 
-    local currentconfig=$(tacc.kvget ${GITLAB_STORE})
+    local currentconfig=$(kvget $TACCLAB_CACHE_DIR ${GITLAB_STORE})
     jsonval _username "${currentconfig}" "username"
     if [ ! -z "${_username}" ]; then
         echo "${_username}"

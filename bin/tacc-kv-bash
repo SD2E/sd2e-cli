@@ -1,0 +1,218 @@
+#!/usr/bin/env bash
+# ABOUT kv-bash:
+#    key/value dabatase
+#    database store in HOME directory
+#    each user has 1 database
+#    imports 5 bash functions via ```$ source kv-bash```
+#
+# Author: damphat
+# Customized by TACC
+# Requirements: unix-like environement, no dependencies
+#
+# USAGE:
+#    source ./kv-bash        # import kv-bash functions
+#    kvset <key> <value>     # assign value to key
+#    kvget <key>             # get value of key
+#    kvdel <key>             # kvdelete by key
+#    kvlist                  # list all current key/value pairs
+#    kvclear                 # clear database
+#
+# EXAMPLES:
+#    $ source ./kv-bash
+#    $ kvset user mr.bob
+#    $ kvset pass abc@123
+#    $ kvlist
+#      user mr.bob
+#      pass abc@123
+#    $ kvget user
+#      mr.bob
+#    $ kvget pass
+#      abc@123
+#    $ kvdel pass
+#    $ kvget pass
+#
+#    $ kvclear
+
+########################
+# CONSTANTS
+########################
+
+########################
+# LOCAL FUNCTIONS
+########################
+
+# print to stderr, red color
+kv_echo_err() {
+	echo -e "\e[01;31m$@\e[0m" >&2
+}
+
+# Usage: kv_echo_err_box <err-msg> <function-name>
+kv_echo_err_box() {
+	kv_echo_err "  +-------------------------------+"
+	kv_echo_err "  | ERROR: $1"
+	kv_echo_err "  | function: $2"
+	kv_echo_err "  +-------------------------------+"
+}
+
+# Usage: kv_validate_key <key>
+kv_validate_key() {
+	[[ "$1" =~ ^[0-9a-zA-Z._:-]+$  ]]
+}
+
+########################
+# ENSURE THIS-FILE IS CALL BY 'source ./kv-bash'
+########################
+
+[[ "${BASH_SOURCE[0]}" != "${0}" ]] || {
+	kv_echo_err "  +------------------------------------------------+"
+	kv_echo_err "  | FALTAL ERROR: wrong usage :(                   |"
+	kv_echo_err "  | You should use this via source                 |"
+	kv_echo_err "  |     $ source ./kv-bash                         |"
+	kv_echo_err "  |                                                |"
+	kv_echo_err "  | Examples:                                      |"
+	kv_echo_err "  |     $ source ./kv-bash                         |"
+	kv_echo_err "  |     $ kvset user mr.bob                        |"
+	kv_echo_err "  |     $ kvset pass abc@123                       |"
+	kv_echo_err "  |     $ kvlist                                   |"
+	kv_echo_err "  |       user mr.bob                              |"
+	kv_echo_err "  |       pass abc@123                             |"
+	kv_echo_err "  |     $ kvget user                               |"
+	kv_echo_err "  |       mr.bob                                   |"
+	kv_echo_err "  |     $ kvget pass                               |"
+	kv_echo_err "  |       abc@123                                  |"
+	kv_echo_err "  |     $ kvdel pass                               |"
+	kv_echo_err "  |     $ kvget pass                               |"
+	kv_echo_err "  |                                                |"
+	kv_echo_err "  |     $ kvclear                                  |"
+	kv_echo_err "  +------------------------------------------------+"
+	exit 1
+}
+
+########################
+# PUBLIC FUNCTIONS
+########################
+
+# Usage: kvget [cache_dir] <key>
+kvget() {
+	if [ $# == 2 ]; then
+		cache_dir="$1"
+		key="$2"
+	elif [ $# == 1 ]
+		key="$1"
+	else
+		kv_echo_err_box 'incorrect number of arguments' 'kvget()'
+	fi
+
+	kv_validate_key "$key" || {
+		kv_echo_err_box 'invalid param "key"' 'kvget()'
+		return 1
+	}
+
+	if [ -z $cache_dir ]; then
+		if [ -d "$KV_CACHE_DIR" ]; then
+			cache_dir="$KV_CACHE_DIR"
+		else
+			cache_dir="$HOME/.tacc"
+		fi
+	fi
+
+	VALUE="$([ -f "$cache_dir/$key" ] && cat "$cache_dir/$key")"
+	echo "$VALUE"
+
+	[ "$VALUE" != "" ]
+}
+
+# Usage: kvset <key> [value]
+kvset() {
+	if [ $# == 3 ]; then
+		cache_dir="$1"
+		key="$2"
+		value="$3"
+	elif [ $# == 2 ]
+		key="$1"
+		value="$2"
+	else
+		kv_echo_err_box 'incorrect number of arguments' 'kvset()'
+	fi
+
+	kv_validate_key "$key" || {
+		kv_echo_err_box 'invalid param "key"' 'kvset()'
+		return 1
+	}
+
+	if [ -z $cache_dir ]; then
+		if [ -d "$KV_CACHE_DIR" ]; then
+			cache_dir="$KV_CACHE_DIR"
+		else
+			cache_dir="$HOME/.tacc"
+		fi
+	fi
+
+	test -d "$cac" || mkdir "$cache_dir"
+	echo "$value" > "$cache_dir/$key"
+}
+
+# Usage: kvdel <key>
+kvdel() {
+	if [ $# == 2 ]; then
+		cache_dir="$1"
+		key="$2"
+	elif [ $# == 1 ]
+		key="$1"
+	else
+		kv_echo_err_box 'incorrect number of arguments' 'kvdel()'
+	fi
+
+	kv_validate_key "$key" || {
+		kv_echo_err_box 'invalid param "key"' 'kvdel()'
+		return 1
+	}
+
+	if [ -z $cache_dir ]; then
+		if [ -d "$KV_CACHE_DIR" ]; then
+			cache_dir="$KV_CACHE_DIR"
+		else
+			cache_dir="$HOME/.tacc"
+		fi
+	fi
+
+	test -f "$cache_dir/$key" && rm -f "$cache_dir/$key"
+}
+
+# list all key/value pairs to stdout
+# Usage: kvlist
+kvlist() {
+	cache_dir="$1"
+
+	if [ -z $cache_dir ]; then
+		if [ -d "$KV_CACHE_DIR" ]; then
+			cache_dir="$KV_CACHE_DIR"
+		else
+			cache_dir="$HOME/.tacc"
+		fi
+	fi
+
+
+	for i in "$cache_dir/"*; do
+		if [ -f "$i" ]; then
+			key="$(basename "$i")"
+			echo "$key" "$(kvget "$key")"
+		fi
+	done
+}
+
+# clear all key/value pairs in database
+# Usage: kvclear
+kvclear() {
+	cache_dir="$1"
+
+	if [ -z $cache_dir ]; then
+		if [ -d "$KV_CACHE_DIR" ]; then
+			cache_dir="$KV_CACHE_DIR"
+		else
+			cache_dir="$HOME/.tacc"
+		fi
+	fi
+
+	rm -rf "$cache_dir"
+}
