@@ -13,7 +13,7 @@ function get_gitlab_token_remaining_time() {
     TOKENSTORE="gitlab"
   fi
 
-  auth_cache=$(tacc.kvget ${TOKENSTORE})
+  auth_cache=$(kvget $TACCLAB_CACHE_DIR ${TOKENSTORE})
 
   jsonval expires_in "$auth_cache" "expires_in"
   jsonval created_at "$auth_cache" "created_at"
@@ -31,7 +31,7 @@ function get_gitlab_token_remaining_time() {
 }
 
 if [ "$gitlab_disable_cache" -ne 1 ] && [ -z "$gitlab_access_token" ]; then # user did not specify an gitlab_access_token as an argument
-    tokenstore=$(tacc.kvget ${GITLAB_STORE})
+    tokenstore=$(kvget $TACCLAB_CACHE_DIR ${GITLAB_STORE})
 #    stderr $tokenstore
     if [ -n "$tokenstore" ]; then
         jsonval gitlabusername "${tokenstore}" "username"
@@ -53,7 +53,7 @@ if [ "$gitlab_disable_cache" -ne 1 ] && [ -z "$gitlab_access_token" ]; then # us
             if [ ${token_life_remaining}  -lt  60 ]; then
                 stderr "Gitlab token has expired. Refreshing..."
                 gitlab_auto_auth_refresh
-                tokenstore=$(tacc.kvget ${GITLAB_STORE})
+                tokenstore=$(kvget $TACCLAB_CACHE_DIR ${GITLAB_STORE})
                 jsonval gitlab_access_token "${tokenstore}" "access_token"
                 jsonval gitlab_refresh_token "${tokenstore}" "refresh_token"
                 # stderr "access_token: $gitlab_access_token | refresh_token: ${gitlab_refresh_token}"

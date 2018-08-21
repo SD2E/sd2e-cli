@@ -143,7 +143,7 @@ args=("$@")
 
 function prompt_options() {
     # Overrides tacclab-common.sh
-    local currentconfig=$(tacc.kvget ${GITLAB_STORE})
+    local currentconfig=$(kvget $TACCLAB_CACHE_DIR ${GITLAB_STORE})
 
     for val in ${interactive_opts[@]}; do
       if [[ $val == "title" ]]; then

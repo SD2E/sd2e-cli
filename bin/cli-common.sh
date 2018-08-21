@@ -79,7 +79,7 @@ fi
 #     TOKENSTORE="current"
 #   fi
 
-#   auth_cache=$(tacc.kvget ${TOKENSTORE})
+#   auth_cache=$(kvget ${TOKENSTORE})
 #   # stderr "cli-common/get_token_remaining_time $TOKENSTORE"
 
 #   jsonval expires_in "$auth_cache" "expires_in"

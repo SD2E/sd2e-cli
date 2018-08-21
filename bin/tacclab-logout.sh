@@ -43,7 +43,7 @@ function main () {
         [ "$piped" -eq 0 ] && log "Logging out of ${hosturl}..."
     fi
 
-    tacc.kvset $GITLAB_STORE "{\"tenantid\":\"$gitlab_tenantid\",\"baseurl\":\"$(get_gitlab_uri)\",\"devurl\":\"$devurl\",\"username\":\"${gitlabusername}\",\"access_token\":\"\",\"refresh_token\":\"\",\"created_at\":\"\",\"expires_in\":\"\",\"expires_at\":\"\"}"
+    kvset $TACCLAB_CACHE_DIR $GITLAB_STORE "{\"tenantid\":\"$gitlab_tenantid\",\"baseurl\":\"$(get_gitlab_uri)\",\"devurl\":\"$devurl\",\"username\":\"${gitlabusername}\",\"access_token\":\"\",\"refresh_token\":\"\",\"created_at\":\"\",\"expires_in\":\"\",\"expires_at\":\"\"}"
 
     if [ "$?" == 0 ]; then
       success "Logged out"
