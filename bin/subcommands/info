@@ -11,6 +11,9 @@ else
     SDK_VERSION=
 fi
 
+# Get agave-cli version.
+SCIENCE_API_VERSION=$(curl -skL -H "Cache-Control: no-cache" https://raw.githubusercontent.com/TACC-Cloud/agave-cli/master/VERSION)
+
 function print_info() {
 
 cat << EOF
@@ -18,7 +21,7 @@ cat << EOF
 DARPA SD2E version: $SDK_VERSION
 TACC Cloud API tenant: $TENANT_NAME
 TACC Cloud API versions:
-	Science APIs: 2.2.5
+	Science APIs: $SCIENCE_API_VERSION
 	Reactors API: dev
 	TACC Accounting API: v1
 
