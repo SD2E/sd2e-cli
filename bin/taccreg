@@ -1,0 +1,37 @@
+#!/bin/bash
+#
+# docker registry
+#
+# Manage authentication to a Docker registry
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+source ${DIR}/cli-common.sh
+source ${DIR}/taccreg-common.sh
+
+function usage() {
+
+cat <<EOF
+$(basename $0): [COMMAND] [OPTION]...
+
+Manage authentication to a Docker registry.
+
+Commands:
+    login    - Log in to Docker Hub
+    logout   - Log out from Docker Hub
+    license  - Display license and usage policy
+    help     - Show usage information
+EOF
+
+}
+
+case "$1" in
+    login) shift;
+        bash ${DIR}/taccreg-login.sh "$@";;
+    logout) shift;
+        bash ${DIR}/taccreg-logout.sh "$@";;
+    license) terms; safe_exit ;;
+    help) usage; safe_exit ;;
+    *)
+        usage; safe_exit ;;
+esac

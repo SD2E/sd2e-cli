@@ -4,7 +4,7 @@ cp VERSION VERSION.bak
 echo "develop" > VERSION
 
 _VERSION="$(echo -n $(cat VERSION))"
-make clean
+make distclean
 
 make docker
 make docker-release
