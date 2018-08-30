@@ -105,7 +105,8 @@ function maskpass() {
 
 # Agave helper functions
 
-source ${DIR}/agave-common.sh
+# TODO: break this dependency on the Agave helper functions.
+#source ${DIR}/common.sh
 
 AGAVE_TENANTID=${AGAVE_TENANTID}
 function get_agave_tenant(){
@@ -214,13 +215,14 @@ function notify() { [[ $? == 0 ]] && success "$@" || err "$@"; }
 
 # Documentation functions
 
+# TODO: clean up where documentation lives. Avoid namespace collisions when Agave, Abaco, and SD2E bin directories are merged
 function copyright() {
     out "LICENSE\n"
-  cat $DIR/../docs/LICENSE
+  cat $DIR/../LICENSE
 }
 
 function disclaimer() {
-  cat $DIR/../docs/DISCLAIMER
+  cat $DIR/../DISCLAIMER
 }
 
 function docs() {

@@ -43,7 +43,7 @@
 
 # print to stderr, red color
 kv_echo_err() {
-	echo -e "\e[01;31m$@\e[0m" >&2
+	echo -e "\033[01;31m$@\033[0m" >&2
 }
 
 # Usage: kv_echo_err_box <err-msg> <function-name>
@@ -97,7 +97,7 @@ kvget() {
 	if [ $# == 2 ]; then
 		cache_dir="$1"
 		key="$2"
-	elif [ $# == 1 ]
+	elif [ $# == 1 ]; then
 		key="$1"
 	else
 		kv_echo_err_box 'incorrect number of arguments' 'kvget()'
@@ -128,7 +128,7 @@ kvset() {
 		cache_dir="$1"
 		key="$2"
 		value="$3"
-	elif [ $# == 2 ]
+	elif [ $# == 2 ]; then
 		key="$1"
 		value="$2"
 	else
@@ -148,7 +148,7 @@ kvset() {
 		fi
 	fi
 
-	test -d "$cac" || mkdir "$cache_dir"
+	test -d "$cache_dir" || mkdir "$cache_dir"
 	echo "$value" > "$cache_dir/$key"
 }
 
@@ -157,7 +157,7 @@ kvdel() {
 	if [ $# == 2 ]; then
 		cache_dir="$1"
 		key="$2"
-	elif [ $# == 1 ]
+	elif [ $# == 1 ]; then
 		key="$1"
 	else
 		kv_echo_err_box 'incorrect number of arguments' 'kvdel()'

@@ -25,11 +25,13 @@ Commands:
     logout   - Log out from Gitlab
     projects - Manage Gitlab projects
     groups   - Manage Gitlab groups
-    keys     - Manage SSH keys
     version  - Display CLI and Gitlab versions
     license  - Display license and usage policy
     help     - Show usage information
 EOF
+
+# removed this line:
+#     keys     - Manage SSH keys
 
 }
 
@@ -40,8 +42,8 @@ case "$1" in
         bash ${DIR}/tacclab-logout.sh "$@" ;;
     projects) shift;
         bash ${DIR}/tacclab-projects.sh "$@" ;;
-    keys) shift;
-        bash ${DIR}/tacclab-keys.sh "$@" ;;
+#    keys) shift;
+#        bash ${DIR}/tacclab-keys.sh "$@" ;;
     groups) shift;
         bash ${DIR}/tacclab-groups.sh "$@" ;;
     version) version; safe_exit ;;

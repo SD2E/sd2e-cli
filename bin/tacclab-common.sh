@@ -257,7 +257,7 @@ function get_gitlab_uri() {
     if [ ! -z "${TACC_GITLAB_URI}" ]; then
         gitlab_gitlab_baseurl=${TACC_GITLAB_URI}
     else
-        err "Couldn't get TACC_GITLAB_URI"
+        err "Couldn't get TACC_GITLAB_URI. That environment variable must be set in the shell environment. For example: export TACC_GITLAB_URI='https://my.gitlab.com'"
     fi
 
     echo "${gitlab_gitlab_baseurl}"
