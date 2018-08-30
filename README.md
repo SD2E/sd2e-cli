@@ -1,7 +1,7 @@
 
 # Overview
 
-Command line interface for the SD2E platform. This repository is mostly intended for developers of the CLI. It's installable via a curl-based installer or available as a Docker container image. Full documentation is available in the [docs/](docs/) folder. 
+Command line interface for the SD2E platform. This repository is mostly intended for developers of the CLI. It's installable via a curl-based installer or available as a Docker container image. Full documentation is available in the [docs/](docs/) folder.
 
 ## Installation
 
@@ -42,7 +42,7 @@ You can also download and install the CLI yourself:
 
 ## Using Docker
 
-We maintain the CLI as nicely functional Docker image. 
+We maintain the CLI as nicely functional Docker image.
 
 
 ```shell
@@ -57,7 +57,23 @@ Some people find it handy to define this as an alias
 
 ## Developing the CLI
 
-1. Fork this repository and clone it locally
-2. Develop in your own branches, named after the feature or fix you are working on
-3. Test extensively. 
-4. Submit a well-documented PR against the `develop` branch of upstream repository
+Fork or clone this repository. Make and install this local version.
+
+```bash
+git clone --recurse-submodules -b develop https://github.com/SD2E/sd2e-cli.git
+cd sd2e-cli
+make
+make install
+```
+
+From the `develop` branch, create a feature branch to hold your changes.
+
+```shell
+cd sd2e-cli
+git checkout develop
+git checkout -b my_fix_or_feature
+# After extensive development and testing
+git push origin my_fix_or_feature
+```
+
+Submit a well-documented PR against the `develop` branch.

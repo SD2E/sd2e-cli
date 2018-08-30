@@ -1,16 +1,14 @@
 #!/bin/bash
+#
+# build.sh
+#
+# Run this script from the root of this repo.
+#
 
-_VERSION=$(echo -n $(cat VERSION))
-source configuration.rc
-
-make clean
-make dist
-
-git commit -a -m "Releasing ${_VERSION}"
-git tag -a "v${_VERSION}" -m "version ${_VERSION}"
-git push origin "v${_VERSION}"
+# Clean and build release.
+make distclean
+make release 
 git push origin master
 
-make docker
-make docker-release
-make clean
+# Create container image of release.
+make docker-release && make clean
