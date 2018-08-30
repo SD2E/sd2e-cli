@@ -3,7 +3,7 @@
 # tacclab login
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-source ${DIR}/common.sh
+# source ${DIR}/common.sh
 source ${DIR}/cli-common.sh
 source ${DIR}/tacclab-common.sh
 ITME=$(basename $0)
@@ -147,7 +147,10 @@ fi
 
 # Delegate logic from the `main` function
 authheader=$(get_gitlab_auth_header)
-main
+
+source $DIR/tacclab-runner.sh
+
+# main
 
 # else
 #     stderr "Gitlab token was still valid. Re-run with --force to invalidate it."
@@ -155,5 +158,5 @@ main
 # fi
 
 # This has to be run last not to rollback changes we've made.
-safe_exit
+# safe_exit
 

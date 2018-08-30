@@ -3,7 +3,7 @@
 # tacclab keys remove - dlete an SSH key from the user's Gitlab profile
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-source ${DIR}/common.sh
+# source ${DIR}/common.sh
 source ${DIR}/cli-common.sh
 source ${DIR}/tacclab-common.sh
 ITME=$(basename $0)
