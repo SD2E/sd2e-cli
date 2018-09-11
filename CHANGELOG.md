@@ -1,6 +1,14 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## Version 1.2.1
+### Changed
+* hotfix for missing rendertemplate.py dependency
+
+## Version 1.2.0
+### Changed
+* added support for tacclab and taccreg commands
+
 ## Version 1.0.7 - 2/21/2018
 ### Changed
 * updated Agave CLI submodule to include a few fixes, including improved auth-switch
