@@ -141,9 +141,6 @@ args=("$@")
 
 #if ((! tacclab_refreshed_ok)) || ((force)); then
 
-if ((interactive)); then
-  prompt_options
-fi
 
 # Delegate logic from the `main` function
 authheader=$(get_gitlab_auth_header)
