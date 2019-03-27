@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## Version 1.2.2
+### Changed
+* updated to latest abaco-cli
+
 ## Version 1.2.1
 ### Changed
 * hotfix for missing rendertemplate.py dependency
@@ -16,11 +20,11 @@ All notable changes to this project will be documented in this file.
 ## Version 1.0.6 - 1/31/2018
 ### Changed
 * updated the info subcommand to fix updating.
-* added an "upgrade" subcommand to make the upgrade feature a little easier to find. 
+* added an "upgrade" subcommand to make the upgrade feature a little easier to find.
 
 ## Version 1.0.5 - 1/30/2018
 ### Changed
-* added Abaco CLI as a submodule 
+* added Abaco CLI as a submodule
 
 ## Version 1.0.4 - 11/29/2017
 ### Changed
