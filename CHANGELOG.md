@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## Version 1.2.3
+### Changed
+* pinned agave-cli to 2.3.0
+
 ## Version 1.2.2
 ### Changed
 * updated to latest abaco-cli
