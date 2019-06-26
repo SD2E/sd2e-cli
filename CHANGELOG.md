@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## Version 1.3.0
+### Changed
+* updated agave-cli to 2.3.1
+* This version or newer is required to work with the updated jobs service
+
 ## Version 1.2.3
 ### Changed
 * pinned agave-cli to 2.3.0
