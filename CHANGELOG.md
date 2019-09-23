@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## Version 1.3.1
+### Changed
+* updated to abaco-cli 1.3.0
+* adds support for a number of abaco features, including aliases and hints
+
 ## Version 1.3.0
 ### Changed
 * updated agave-cli to 2.3.1
