@@ -45,7 +45,7 @@ export CLI_EXTRAS_DEST=extras
 
 # Submodules
 export CLI_BASE_REPO=https://github.com/TACC-Cloud/agave-cli
-export CLI_BASE_BRANCH=v2.3
+export CLI_BASE_BRANCH=master
 export CLI_BASE_DEST=agave-cli
 
 export ABACO_CLI_REPO=https://github.com/TACC-Cloud/abaco-cli

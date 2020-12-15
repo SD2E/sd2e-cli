@@ -13,7 +13,7 @@
 
 sdk_version := $(shell cat VERSION)
 api_version := v2
-api_release := 2.2.5
+api_release := 2.4.6
 
 # Installation prefix.
 PREFIX := $(HOME)
